@@ -1,0 +1,2 @@
+ScoreManager.c.o: ScoreManager.c
+ScoreManager.c :

@@ -1,0 +1,2 @@
+Menu.c.o: Menu.c
+Menu.c :

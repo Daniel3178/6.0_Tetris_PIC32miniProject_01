@@ -34,10 +34,12 @@ typedef struct Asset
 
 void rotateMaster(Asset input);
 void assetsInitializer();
-void printMatrix(Asset currentAsset);
+// void printMatrix(Asset currentAsset);
 void rotate12x12matrix(unsigned char* matrixToRotateP, int rotationDirection);
 void rotate9x9matrix(unsigned char* matrixToRotateP, int rotationDirection);
-void quickTimer(uint8_t timeout);
+void quickTimer(int timeout);
+void user_isr();
+
 
 
 Asset square_shape;

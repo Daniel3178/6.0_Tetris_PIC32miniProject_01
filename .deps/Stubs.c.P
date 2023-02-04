@@ -1,0 +1,2 @@
+Stubs.c.o: Stubs.c
+Stubs.c :

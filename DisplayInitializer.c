@@ -4,6 +4,7 @@
 unsigned char OLED_DisplayBuffer[512];
 
 
+
 unsigned char Spi2PutByte(unsigned char bVal)
 {
 	unsigned char bRx;
@@ -58,12 +59,12 @@ void OledDspInit()
 	*/
 	PORTFCLR = 0x10; //Rf4 = data/cmd bit
 	/* Start by turning VDD on and wait a while for the power to come up.
-	chipKIT™ Basic I/O Shield™ Reference Manual
+	chipKITï¿½ Basic I/O Shieldï¿½ Reference Manual
 	Copyright Digilent, Inc. All rights reserved.
 	Other product and company names mentioned may be trademarks of their respective owners. Page 11 of 13
 	*/
 	PORTFCLR = 0x40; // 0 = on 
-	quickTimer(50000);
+	quickTimer(5000);
 	//1ms delay
 	/* Display off command
 	*/
@@ -71,7 +72,7 @@ void OledDspInit()
 	/* Bring Reset low and then high
 	*/
 	PORTGCLR = 0x200;
-	quickTimer(50000);
+	quickTimer(5000);
 	//1ms delay
 	PORTGSET = 0x200;
 	/* Send the Set Charge Pump and Set Pre-Charge Period commands
@@ -83,7 +84,7 @@ void OledDspInit()
 	/* Turn on VCC and wait 100ms
 	*/
 	PORTFCLR = 0X20; //RF6 = VDD
-	quickTimer(5000000);
+	quickTimer(5000);
 	//100 ms delay
 	/* Send the commands to invert the display. This puts the display origin
 	** in the upper left corner.
@@ -146,6 +147,11 @@ void OledUpdate()
 		OledPutBuffer(128, pb);
 		pb += 128;
 	}
+}
+void user_isr() {
+	OledUpdate();
+	IFSCLR(0) = 0x100;//0001 0000 0000
+	return;
 }
 
 /*function to print letters/words/digit etc*/
