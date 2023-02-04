@@ -141,6 +141,9 @@
     <ClInclude Include="pic32max.h" />
     <ClInclude Include="TetrisGeneral.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Timer.asm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

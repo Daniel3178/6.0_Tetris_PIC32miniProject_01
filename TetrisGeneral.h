@@ -1,7 +1,7 @@
 
 #ifndef _Tetris_Config_H
 #define _Tetris_Config_H
-
+#include <stdint.h>
 /*Definitions*/
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 32
@@ -37,6 +37,8 @@ void assetsInitializer();
 void printMatrix(Asset currentAsset);
 void rotate12x12matrix(unsigned char* matrixToRotateP, int rotationDirection);
 void rotate9x9matrix(unsigned char* matrixToRotateP, int rotationDirection);
+void quickTimer(uint8_t timeout);
+
 
 Asset square_shape;
 Asset stright_shape;
