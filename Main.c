@@ -5,19 +5,19 @@
 
 int main() {
     assetsInitializer();
-    printMatrix(currentShape);
+    // printMatrix(currentShape);
     rotateMaster(currentShape);
-    printf("\n");
-    printMatrix(currentShape);
+    // printf("\n");
+    // printMatrix(currentShape);
     rotateMaster(currentShape);
-    printf("\n");
-    printMatrix(currentShape);
+    // printf("\n");
+    // printMatrix(currentShape);
     currentShape = left_skew_shape;
-    printf("\n");
-    printMatrix(currentShape);
+    // printf("\n");
+    // printMatrix(currentShape);
     rotateMaster(currentShape);
-    printf("\n");
-    printMatrix(currentShape);
+    // printf("\n");
+    // printMatrix(currentShape);
 
     return 0;
 }
