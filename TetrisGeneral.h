@@ -2,6 +2,7 @@
 #ifndef _Tetris_Config_H
 #define _Tetris_Config_H
 #include <stdint.h>
+#include <time.h>
 /*Definitions*/
 #define DISPLAY_WIDTH 128
 #define DISPLAY_HEIGHT 32
@@ -25,6 +26,9 @@ unsigned char rightSkewT[9][9];
 unsigned char tT[9][9];
 unsigned char alphabetA_Z[28][30];
 unsigned char digits0_9[10][30];
+unsigned char tetrisField[32][128];
+unsigned char OLED_DisplayBuffer[512];
+
 
 typedef struct Asset
 {
@@ -34,11 +38,19 @@ typedef struct Asset
 
 void rotateMaster(Asset input);
 void assetsInitializer();
-// void printMatrix(Asset currentAsset);
+ void printMatrix(Asset currentAsset);
 void rotate12x12matrix(unsigned char* matrixToRotateP, int rotationDirection);
 void rotate9x9matrix(unsigned char* matrixToRotateP, int rotationDirection);
 void quickTimer(int timeout);
 void user_isr();
+void fieldInitializer();
+void printAsset(Asset assetToPrint, char xPos, char yPos);
+void printTheGame();
+void delay(ms);
+
+
+
+
 
 
 

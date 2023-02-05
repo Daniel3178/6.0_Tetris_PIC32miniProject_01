@@ -5,19 +5,20 @@
 
 int main() {
     assetsInitializer();
-    // printMatrix(currentShape);
-    rotateMaster(currentShape);
-    // printf("\n");
-    // printMatrix(currentShape);
-    rotateMaster(currentShape);
-    // printf("\n");
-    // printMatrix(currentShape);
-    currentShape = left_skew_shape;
-    // printf("\n");
-    // printMatrix(currentShape);
-    rotateMaster(currentShape);
-    // printf("\n");
-    // printMatrix(currentShape);
+    fieldInitializer();
+    //printAsset(currentShape, 15, 15);
+    //printMatrix(currentShape);
+    //printTheGame();
+
+    while (1) {
+        char i=0;
+        if (i + 9 < DISPLAY_HEIGHT) {
+            printAsset(currentShape, i, i);
+            delay(1000);
+            printTheGame();
+            i++;
+        }
+    }
 
     return 0;
 }

@@ -1,34 +1,3 @@
-﻿  Assets.c
-  DisplayInitializer.c
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(16,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(23,8): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(31,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(32,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(34,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(35,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(36,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(37,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(45,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(46,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(51,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(52,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(28,15): warning C4101: 'tcfg': unreferenced local variable
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(59,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(65,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(66,13): warning C4305: 'function': truncation from 'int' to 'uint8_t'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(73,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(74,13): warning C4305: 'function': truncation from 'int' to 'uint8_t'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(76,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(85,2): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(86,13): warning C4305: 'function': truncation from 'int' to 'uint8_t'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(116,3): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(121,10): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(132,3): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(142,3): warning C4312: 'type cast': conversion from 'unsigned int' to 'volatile unsigned int *' of greater size
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\DisplayInitializer.c(127,6): warning C4101: 'icol': unreferenced local variable
-  GameEngin.c
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\GameEngin.c(49,2): warning C4013: 'memcpy' undefined; assuming extern returning int
-  Main.c
-  TetrominoGenerator.c
-  Generating Code...
+﻿  GraphicEngin.c
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\GraphicEngin.c(7,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[128]'
   06_Tetris_PIC32miniProject01.vcxproj -> F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\x64\Debug\06_Tetris_PIC32miniProject01.exe

@@ -130,6 +130,7 @@
     <ClCompile Include="Assets.c" />
     <ClCompile Include="DisplayInitializer.c" />
     <ClCompile Include="GameEngin.c" />
+    <ClCompile Include="GraphicEngin.c" />
     <ClCompile Include="IOSystem.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />

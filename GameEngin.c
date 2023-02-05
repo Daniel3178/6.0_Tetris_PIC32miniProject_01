@@ -6,6 +6,26 @@
 unsigned char rotated12x12Matrix[12][12];
 unsigned char rotated9x9Matrix[9][9];
 
+unsigned char tetrisField[32][128];
+
+void fieldInitializer() {
+	unsigned char i = 0;
+	unsigned char j = 0;
+
+	for (i = 0; i < 32; i++) {
+		for (j = 0; j < 128; j++) {
+			if (i == 0 || i == 31 || j == 0 || j == 127) {
+				tetrisField[i][j] = 1;
+			}
+			else {
+				tetrisField[i][j] = 0;
+			}
+		}
+	}
+}
+
+
+
 #pragma region ROTATION_STUFF
 
 int i;
@@ -58,7 +78,7 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			}
 		}
 	}
-	// memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
+	 memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
 	currentShape.matrix = &rotated9x9Matrix[0][0];
 }
 
@@ -90,82 +110,106 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			}
 		}
 	}
-	// memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
+	 memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
 	currentShape.matrix = &rotated12x12Matrix[0][0];
 }
 
 #pragma endregion
 
-// void printMatrix(Asset currentAsset)
-// {
-// 	switch (currentAsset.id)
-// 	{
-// 	case SHAPE_ID_6X6:
-// 		// int i;
-// 		// int j;
-// 		for (i = 0; i < 6; i++)
-// 		{
-// 			for (j = 0; j < 6; j++)
-// 			{
-// 				if (*currentAsset.matrix == 0)
-// 				{
+#pragma region LaborintOnVisualStudio
 
-// 					printf("0");
-// 				}
-// 				else if (*currentAsset.matrix == 1)
-// 				{
+ void printMatrix(Asset currentAsset)
+ {
+ 	switch (currentAsset.id)
+ 	{
+ 	case SHAPE_ID_6X6:
+ 		// int i;
+ 		// int j;
+ 		for (i = 0; i < 6; i++)
+ 		{
+ 			for (j = 0; j < 6; j++)
+ 			{
+ 				if (*currentAsset.matrix == 0)
+ 				{
 
-// 					printf("1");
-// 				}
-// 				currentAsset.matrix++;
-// 			}
-// 			printf("\n");
-// 		}
-// 		break;
-// 	case SHAPE_ID_9X9:
-// 		// int i;
-// 		// int j;
-// 		for (i = 0; i < 9; i++)
-// 		{
-// 			for (j = 0; j < 9; j++)
-// 			{
-// 				if (*currentAsset.matrix == 0)
-// 				{
-// 					printf("0");
-// 				}
-// 				else if (*currentAsset.matrix == 1)
-// 				{
+ 					printf("0");
+ 				}
+ 				else if (*currentAsset.matrix == 1)
+ 				{
 
-// 					printf("1");
-// 				}
-// 				currentAsset.matrix++;
-// 			}
-// 			printf("\n");
-// 		}
-// 		break;
-// 	case SHAPE_ID_12X12:
-// 		// int i;
-// 		// int j;
-// 		for (i = 0; i < 12; i++)
-// 		{
-// 			for (j = 0; j < 12; j++)
-// 			{
-// 				if (*currentAsset.matrix == 0)
-// 				{
-// 					// printf("0");
-// 				}
-// 				else if (*currentAsset.matrix == 1)
-// 				{
-// 					// printf("1");
-// 				}
-// 				currentAsset.matrix++;
-// 			}
-// 			// printf("\n");
-// 		}
-// 		break;
-// 	}
-// }
+ 					printf("1");
+ 				}
+ 				currentAsset.matrix++;
+ 			}
+ 			printf("\n");
+ 		}
+ 		break;
+ 	case SHAPE_ID_9X9:
+ 		// int i;
+ 		// int j;
 
+ 		for (i = 0; i < 9; i++)
+ 		{
+ 			for (j = 0; j < 9; j++)
+ 			{
+ 				if (*currentAsset.matrix == 0)
+ 				{
+ 					printf("0");
+ 				}
+ 				else if (*currentAsset.matrix == 1)
+ 				{
+ 					printf("1");
+ 				}
+ 				currentAsset.matrix++;
+ 			}
+ 			printf("\n");
+ 		}
+
+ 		break;
+ 	case SHAPE_ID_12X12:
+ 		// int i;
+ 		// int j;
+ 		for (i = 0; i < 12; i++)
+ 		{
+ 			for (j = 0; j < 12; j++)
+ 			{
+ 				if (*currentAsset.matrix == 0)
+ 				{
+ 					 printf("0");
+ 				}
+ 				else if (*currentAsset.matrix == 1)
+ 				{
+ 					 printf("1");
+ 				}
+ 				currentAsset.matrix++;
+ 			}
+ 			 printf("\n");
+ 		}
+ 		break;
+ 	}
+ }
+ void printTheGame() {
+	 unsigned char i;
+	 unsigned char j;
+	 system("cls");
+	 for (i = 0; i < DISPLAY_HEIGHT; i++) {
+		 for (j = 0; j < DISPLAY_WIDTH; j++) {
+			 if (tetrisField[i][j] == 1) {
+				 printf("1");
+			 }
+			 else if (tetrisField[i][j] == 0) {
+				 printf("0");
+			 }
+		 }
+		 printf("\n");
+	 }
+ }
+ void delay(ms) {
+	 clock_t timeDelay = ms + clock();
+	 while (timeDelay > clock());
+ }
+
+#pragma endregion
 // check if it fits before roatiting the matrix
 /*The following functions need to be implemented
 1. collision detector

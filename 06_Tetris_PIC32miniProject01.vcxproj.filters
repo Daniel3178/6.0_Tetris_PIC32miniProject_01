@@ -42,6 +42,9 @@
     <ClCompile Include="DisplayInitializer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicEngin.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TetrisGeneral.h">
