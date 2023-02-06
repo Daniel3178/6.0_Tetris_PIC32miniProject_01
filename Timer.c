@@ -4,8 +4,8 @@
 /*Methods for time handeling in the game*/
 
 void quickTimer(int timeout) {
-
-    while (timeout) {
-        timeout--;
-    }
+int i;
+for (i = 0; i < timeout; i++) {
+    i++;
+}
 }

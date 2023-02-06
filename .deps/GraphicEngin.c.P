@@ -1,8 +1,6 @@
-Main.c.o: Main.c \
+GraphicEngin.c.o: GraphicEngin.c TetrisGeneral.h \
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/stdint.h \
- /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h \
- TetrisGeneral.h pic32max.h
-Main.c :
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h
+GraphicEngin.c TetrisGeneral.h :
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/stdint.h :
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h :
- TetrisGeneral.h pic32max.h :

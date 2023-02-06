@@ -1,0 +1,2 @@
+TestInitilizer.c.o: TestInitilizer.c
+TestInitilizer.c :

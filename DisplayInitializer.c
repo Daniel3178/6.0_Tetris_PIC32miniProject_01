@@ -3,6 +3,27 @@
 
 unsigned char OLED_DisplayBuffer[512];
 
+void OledPutBuffer(int cb, unsigned char* rgbTx)
+{
+	int ib;
+	unsigned char bTmp;
+	/* Write/Read the data
+	*/
+	for (ib = 0; ib < cb; ib++) {
+		/* Wait for transmitter to be ready
+		*/
+		//SPI2STATbits.SPITBE
+		while ((SPI2STAT & 0x08)== 0);
+		/* Write the next transmit byte.
+		*/
+		SPI2BUF = *rgbTx++;
+		/* Wait for receive byte.
+		*/
+		//SPI2STATbits.SPIRBF
+		while ((SPI2STAT & 0x1)  == 0);
+		bTmp = SPI2BUF;
+	}
+}
 
 
 unsigned char Spi2PutByte(unsigned char bVal)
@@ -11,14 +32,14 @@ unsigned char Spi2PutByte(unsigned char bVal)
 	/* Wait for transmitter to be ready
 	*/
 	//SPI2STATbits.SPITBE
-	while (PIC32_SPISTAT_SPITBE == 0);
+	while ((SPI2STAT & 0x08) == 0);
 	/* Write the next transmit byte.
 	*/
 	SPI2BUF = bVal;
 	/* Wait for receive byte.
 	*/
 	//SPI2STATbits.SPIRBF
-	while (PIC32_SPISTAT_SPIRBF == 0);
+	while ((SPI2STAT & 0x1) == 0);
 	/* Put the received byte in the buffer.
 	*/
 	bRx = SPI2BUF;
@@ -63,8 +84,9 @@ void OledDspInit()
 	Copyright Digilent, Inc. All rights reserved.
 	Other product and company names mentioned may be trademarks of their respective owners. Page 11 of 13
 	*/
+	quickTimer(10);
 	PORTFCLR = 0x40; // 0 = on 
-	quickTimer(5000);
+	quickTimer(1000000);
 	//1ms delay
 	/* Display off command
 	*/
@@ -72,11 +94,13 @@ void OledDspInit()
 	/* Bring Reset low and then high
 	*/
 	PORTGCLR = 0x200;
-	quickTimer(5000);
+	quickTimer(10);
 	//1ms delay
 	PORTGSET = 0x200;
 	/* Send the Set Charge Pump and Set Pre-Charge Period commands
 	*/
+	quickTimer(10);
+
 	Spi2PutByte(0x8D);
 	Spi2PutByte(0x14);
 	Spi2PutByte(0xD9);
@@ -84,7 +108,7 @@ void OledDspInit()
 	/* Turn on VCC and wait 100ms
 	*/
 	PORTFCLR = 0X20; //RF6 = VDD
-	quickTimer(5000);
+	quickTimer(10000000);
 	//100 ms delay
 	/* Send the commands to invert the display. This puts the display origin
 	** in the upper left corner.
@@ -101,27 +125,6 @@ void OledDspInit()
 	Spi2PutByte(0xAF);
 }
 
-void OledPutBuffer(int cb, unsigned char* rgbTx)
-{
-	int ib;
-	unsigned char bTmp;
-	/* Write/Read the data
-	*/
-	for (ib = 0; ib < cb; ib++) {
-		/* Wait for transmitter to be ready
-		*/
-		//SPI2STATbits.SPITBE
-		while (PIC32_SPISTAT_SPITBE == 0);
-		/* Write the next transmit byte.
-		*/
-		SPI2BUF = *rgbTx++;
-		/* Wait for receive byte.
-		*/
-		//SPI2STATbits.SPIRBF
-		while (PIC32_SPISTAT_SPIRBF == 0);
-		bTmp = SPI2BUF;
-	}
-}
 void OledUpdate()
 {
 	int ipag;
@@ -148,10 +151,10 @@ void OledUpdate()
 		pb += 128;
 	}
 }
-void user_isr() {
-	OledUpdate();
-	IFSCLR(0) = 0x100;//0001 0000 0000
-	return;
-}
+// void user_isr() {
+// 	OledUpdate();
+// 	IFSCLR(0) = 0x100;//0001 0000 0000
+// 	return;
+// }
 
-/*function to print letters/words/digit etc*/
+// /*function to print letters/words/digit etc*/

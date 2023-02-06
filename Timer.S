@@ -10,9 +10,15 @@
 .endm
 
 .data
-.global enableInterupts
+.global enable_interrupts
 .global delay
 .text
+
+enable_interrupts:
+	ei
+
+	jr $ra
+	nop
 
 delay: 
     move $t0, $a0   # t0 = arg

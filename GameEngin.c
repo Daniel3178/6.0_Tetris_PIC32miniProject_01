@@ -64,6 +64,11 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 				tempArray[j][i] = *matrixToRotateP++;
 			}
 		}
+		for(i = 0; i < 9; i++){
+			for (j = 0; j < 9; j++){
+				rotated9x9Matrix[i][j]= tempArray[i][j];
+			}
+		}
 	}
 
 	else
@@ -77,8 +82,13 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 				tempArray[j][i] = *matrixToRotateP++;
 			}
 		}
+		for(i = 0; i < 9; i++){
+			for (j = 0; j < 9; j++){
+				rotated9x9Matrix[i][j]= tempArray[i][j];
+			}
+		}
 	}
-	 memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
+	//  memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
 	currentShape.matrix = &rotated9x9Matrix[0][0];
 }
 
@@ -110,7 +120,7 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			}
 		}
 	}
-	 memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
+	//  memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
 	currentShape.matrix = &rotated12x12Matrix[0][0];
 }
 

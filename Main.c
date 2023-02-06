@@ -1,10 +1,14 @@
 #include <stdint.h>
-#include <stdio.h>
+// #include <stdio.h>
 #include "TetrisGeneral.h"
 #include "pic32max.h"
 
-    //void* stdout = (void*)0;
-
+    void* stdout = (void*)0;
+void user_isr() {
+	OledUpdate();
+	IFSCLR(0) = 0x100;//0001 0000 0000
+	return;
+}
 
     //Function to initialize everything
     void init() {
@@ -37,13 +41,18 @@
         IPCSET(2) = 0x1f; //0001 1111 - Bit 4:2 Priority, Bit 1:0 Subpriority.
         IECSET(0) = 0x100; // 0001 0000 0000 - Bit 8 enable interupts from Timer2
 
-        //enable_interrupts();
+        enable_interrupts();
 
         IPCSET(2) = 0x1f;
         IECSET(0) = 0x100;
     }
 
-
+// void clearDisplay()
+// {
+//   int i;
+//   for(i = 0; i < 512; i++)
+//     OLED_DisplayBuffer[i] = 0;
+// }
 int main() {
     init();
     assetsInitializer();
@@ -52,14 +61,27 @@ int main() {
     //printMatrix(currentShape);
     //printTheGame();
 
-        int i=2;
-    while (1 && i < 32) {
-            
-            printAsset(currentShape, 14, i);
+            // // clearDisplay();
+        // int i=2;
+        unsigned char i = 4;
+        unsigned char j = 10;
+        unsigned char state = 1;
+    while (1) {
+           if(i < 100){
+
+            printAsset(currentShape, 1,i );
+            rotateMaster(currentShape);
             renderGame();
             delay(1000);
-            //printTheGame();
             i++;
+           }
+            // renderPixel(i, j, state);
+            // i++;
+            // j++;
+            // OledUpdate();
+            // // delay(1000);
+            
+            // i++;
        
     }
 
