@@ -38,15 +38,20 @@ typedef struct Asset
 
 void rotateMaster(Asset input);
 void assetsInitializer();
- void printMatrix(Asset currentAsset);
+ //void printMatrix(Asset currentAsset);
 void rotate12x12matrix(unsigned char* matrixToRotateP, int rotationDirection);
 void rotate9x9matrix(unsigned char* matrixToRotateP, int rotationDirection);
 void quickTimer(int timeout);
 void user_isr();
 void fieldInitializer();
-void printAsset(Asset assetToPrint, char xPos, char yPos);
-void printTheGame();
+void printAsset(Asset assetToPrint, int xPos, int yPos);
+//void printTheGame();
 void delay(ms);
+void OledHostInit();
+void OledDspInit();
+void renderGame();
+
+
 
 
 
