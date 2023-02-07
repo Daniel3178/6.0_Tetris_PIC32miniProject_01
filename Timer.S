@@ -10,8 +10,10 @@
 .endm
 
 .data
+.align 2
 .global enable_interrupts
 .global delay
+.global memcpy
 .text
 
 enable_interrupts:
@@ -44,5 +46,37 @@ delay:
             j while
             nop
     breakLoop:
+        jr $ra
+        nop
+memcpy:
+# check if aligned
+    andi $t0,$a0,3
+    andi $t1,$a1,3
+    or $t0,$t0,$t1
+    bne $t0,$zero,byteloop
+    nop
+#copy word by word
+    wordloop:
+        slti $t0,$a2,4 # check if fewer than 4 bytes
+        bne $t0,$zero,byteloop
+        nop
+        lw $t0,0($a0) # load word
+        sw $t0,0($a1) # store word
+        addi $a0,$a0,4 # increment src pointer
+        addi $a1,$a1,4 # increment dst pointer
+        addi $a2,$a2,-4 # decrement counter
+        j wordloop
+        nop
+# standard, byte by byte of the rest
+    byteloop:
+        beq $a2,$zero,done # branch if done
+        lb $t0,0($a0) # load byte
+        sb $t0,0($a1) # store byte
+        addi $a0,$a0,1 # increment src pointer
+        addi $a1,$a1,1 # increment dst pointer
+        addi $a2,$a2,-1 # decrement counter
+        j byteloop
+        nop
+    done:
         jr $ra
         nop

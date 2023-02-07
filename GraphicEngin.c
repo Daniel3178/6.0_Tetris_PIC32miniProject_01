@@ -1,6 +1,6 @@
 #include "TetrisGeneral.h"
 
-void printAsset(Asset assetToPrint, int xPos, int yPos) {
+void updateAsset(Asset assetToPrint, int xPos, int yPos) {
 	char i; 
 	char j;
 	unsigned char* tempP = assetToPrint.matrix;

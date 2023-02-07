@@ -28,10 +28,7 @@ void fieldInitializer() {
 
 #pragma region ROTATION_STUFF
 
-int i;
-int j;
-
-void rotateMaster(Asset input)
+void rotateMaster(Asset input, int rotationDirection)
 {
 	switch (input.id)
 	{
@@ -40,23 +37,24 @@ void rotateMaster(Asset input)
 		break;
 	case SHAPE_ID_9X9:
 		// printf("SHAPE_ID_9X9");
-		rotate9x9matrix(input.matrix, COUNTERCLOCKWISE_ROTAION);
+		rotate9x9matrix(input.matrix, rotationDirection);
 		break;
 	case SHAPE_ID_12X12:
 		// printf("SHAPE_ID_12X12");
-		rotate12x12matrix(input.matrix, CLOCKWISE_ROTATION);
+		rotate12x12matrix(input.matrix, rotationDirection);
 		break;
 	}
 }
 
 void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 {
+	unsigned char i;
+    unsigned char j;
 
 	unsigned char tempArray[9][9];
 	if (rotationDirection)
 	{ // COUNTERCLOCKWISE ROTATION
-		// int i;
-		// int j;
+
 		for (i = 0; i < 9; i++)
 		{
 			for (j = 8; j >= 0; j--)
@@ -73,8 +71,7 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 
 	else
 	{ // CLOCKWISE ROTATION
-		// int i;
-		// int j;
+	
 		for (i = 8; i >= 0; i--)
 		{
 			for (j = 0; j < 9; j++)
@@ -88,17 +85,18 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			}
 		}
 	}
-	//  memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
+	 memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
 	currentShape.matrix = &rotated9x9Matrix[0][0];
 }
 
 void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 {
+	unsigned char i;
+    unsigned char j;
 	unsigned char tempArray[12][12];
+
 	if (rotationDirection)
 	{ // COUNTERCLOCKWISE ROTATION
-		// int i;
-		// int j;
 		for (i = 0; i < 12; i++)
 		{
 			for (j = 11; j >= 0; j--)
@@ -110,8 +108,7 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 
 	else
 	{ // CLOCKWISE ROTATION
-		// int i;
-		// int j;
+
 		for (i = 11; i >= 0; i--)
 		{
 			for (j = 0; j < 12; j++)
@@ -120,9 +117,15 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			}
 		}
 	}
-	//  memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
+	memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
 	currentShape.matrix = &rotated12x12Matrix[0][0];
 }
+
+#pragma endregion
+
+#pragma region COLLISION_STUFF
+
+
 
 #pragma endregion
 

@@ -69,8 +69,8 @@ int main() {
     while (1) {
            if(i < 100){
 
-            printAsset(currentShape, 1,i );
-            rotateMaster(currentShape);
+            updateAsset(currentShape, 1,i );
+            rotateMaster(currentShape, CLOCKWISE_ROTATION);
             renderGame();
             delay(1000);
             i++;
