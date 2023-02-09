@@ -1,4 +1,2 @@
-﻿  GameEngin.c
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\GameEngin.c(81,3): warning C4013: 'memcpy' undefined; assuming extern returning int
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\GameEngin.c(194,3): warning C4013: 'system' undefined; assuming extern returning int
+﻿  GraphicEngin.c
   06_Tetris_PIC32miniProject01.vcxproj -> F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\x64\Debug\06_Tetris_PIC32miniProject01.exe

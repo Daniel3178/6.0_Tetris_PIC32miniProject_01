@@ -47,7 +47,7 @@ void quickTimer(int timeout);
 // void user_isr();
 void fieldInitializer();
 void updateAsset(Asset assetToPrint, int xPos, int yPos);
-//void printTheGame();
+void printTheGame();
 // void delay(int ms);
 void OledHostInit();
 void OledDspInit();
@@ -55,7 +55,7 @@ void renderGame();
 // void enable_interrupts();
 void renderPixel(unsigned char xPos, unsigned char yPos, unsigned char state);
 void OledUpdate();
-void updatePixel(unsigned char x, unsigned char y, unsigned char state);
+//void updatePixel(unsigned char x, unsigned char y, unsigned char state);
 // void memcpy(void *dest, const void * src, unsigned short len);
 
 Asset square_shape;
