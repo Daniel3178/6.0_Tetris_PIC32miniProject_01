@@ -1,9 +1,7 @@
-﻿  Assets.c
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(91,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[6]'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(92,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[12]'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(93,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(94,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(95,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(96,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(97,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
+﻿  GameEngin.c
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\GameEngin.c(93,2): warning C4013: 'memcpy' undefined; assuming extern returning int
+  GraphicEngin.c
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\GraphicEngin.c(15,2): warning C4013: 'system' undefined; assuming extern returning int
+  Main.c
+  Generating Code...
   06_Tetris_PIC32miniProject01.vcxproj -> F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\x64\Debug\06_Tetris_PIC32miniProject01.exe

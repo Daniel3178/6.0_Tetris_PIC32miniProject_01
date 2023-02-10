@@ -15,13 +15,17 @@
 #define TET_ID_12X12 3
 #define CLOCKWISE_ROTATION 0
 #define COUNTERCLOCKWISE_ROTAION 1
-
+#define PLAY_DOWN 0x8
+#define PLAY_RIGHT 0x4
+#define PLAY_LEFT 0x2
+#define PLAY_ROTATE 0x1
 /*Tetrominoes & font declaration */
 
 unsigned char alphabetA_Z[28][30];
 unsigned char digits0_9[10][30];
 unsigned char tetrisField[32][128];
 unsigned char OLED_DisplayBuffer[512];
+int score;
 
 
 typedef struct Tetromino
@@ -35,7 +39,7 @@ typedef struct Tetromino
 
 void rotateMaster(Tetromino inputTet, int rotationDirection);
 void quickTimer(int timeout);
-void user_isr();
+//void user_isr();
 void fieldInitializer();
  //void delay(int ms);
 //void OledHostInit();
@@ -57,5 +61,6 @@ Tetromino tetCollection[7];
 Tetromino rotatedTetromino;
 Tetromino currentTetromino;
 Tetromino tempTetromino;
+
 
 #endif

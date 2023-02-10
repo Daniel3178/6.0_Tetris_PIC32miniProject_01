@@ -51,10 +51,10 @@ void spawnNewTet() {
 #pragma endregion
 
 #pragma region ROTATION
-void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
+void rotate9x9matrix(unsigned char* matrixToRotateP, int rotationDirection)
 {
 	int i;
-    int j;
+	int j;
 
 	unsigned char tempArray[9][9];
 	if (rotationDirection)
@@ -67,16 +67,16 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 				tempArray[j][i] = *matrixToRotateP++;
 			}
 		}
-		for(i = 0; i < 9; i++){
-			for (j = 0; j < 9; j++){
-				rotated9x9Matrix[i][j]= tempArray[i][j];
+		for (i = 0; i < 9; i++) {
+			for (j = 0; j < 9; j++) {
+				rotated9x9Matrix[i][j] = tempArray[i][j];
 			}
 		}
 	}
 
 	else
 	{ // CLOCKWISE ROTATION
-	
+
 		for (i = 8; i >= 0; i--)
 		{
 			for (j = 0; j < 9; j++)
@@ -84,20 +84,20 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 				tempArray[j][i] = *matrixToRotateP++;
 			}
 		}
-		for(i = 0; i < 9; i++){
-			for (j = 0; j < 9; j++){
-				rotated9x9Matrix[i][j]= tempArray[i][j];
+		for (i = 0; i < 9; i++) {
+			for (j = 0; j < 9; j++) {
+				rotated9x9Matrix[i][j] = tempArray[i][j];
 			}
 		}
 	}
-	 memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
+	memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
 	rotatedTetromino.matrix = &rotated9x9Matrix[0][0];
 }
 
-void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
+void rotate12x12matrix(unsigned char* matrixToRotateP, int rotationDirection)
 {
 	int i;
-    int j;
+	int j;
 	unsigned char tempArray[12][12];
 
 	if (rotationDirection)
@@ -148,27 +148,112 @@ void rotateMaster(Tetromino inputTet, int rotationDirection)
 
 #pragma endregion
 
+#pragma region SCORE_MECHANISM
 
+void ereaseCompleteRow() {
+	int i;
+	int j;
+	int sum;
+	int counter = 0;
+
+	for (i = 1; i < DISPLAY_WIDTH; i++) {
+		sum = 0;
+		for (j = 1; j < DISPLAY_HEIGHT; j++) {
+			sum += tetrisField[j][i];
+		}
+		if (sum == DISPLAY_HEIGHT) {
+			counter++;
+			int k;
+			int m;
+			for (k = i; i >= 1; i--) {
+				for (m = 1; m < DISPLAY_HEIGHT; m++) { // all the columns in the right should shift to the left by one
+					tetrisField[m][k] = tetrisField[m][k + 1];
+				}
+			}
+			for (m = 1; m < DISPLAY_HEIGHT; m++) { // the last column should be set to zero
+				tetrisField[m][k] = 0;
+			}
+		}
+	}
+	score += counter;
+
+}
+
+#pragma endregion
+
+#pragma region GAMEPLAY
+void play(int btn) {
+
+	tempTetromino = currentTetromino;
+	switch (btn)
+	{
+	case PLAY_RIGHT:
+		tempTetromino.y += 3;
+		if (DoesFit(tempTetromino)) {
+			currentTetromino.y += 3;
+		}
+		else {
+			fetchToTetField();
+			ereaseCompleteRow();
+			spawnNewTet();
+			tempTetromino.y -= 3;
+		}
+		break;
+	case PLAY_LEFT:
+		tempTetromino.y -= 3;
+		if (DoesFit(tempTetromino)) {
+			currentTetromino.y -= 3;
+		}
+		else {
+			tempTetromino.y += 3;
+		}
+		break;
+	case PLAY_DOWN:
+		tempTetromino.x -= 3;
+		if (DoesFit(tempTetromino)) {
+			currentTetromino.x -= 3;
+		}
+		else {
+			tempTetromino.x += 3;
+		}
+		break;
+	case PLAY_ROTATE:
+		rotateMaster(tempTetromino, CLOCKWISE_ROTATION);
+		if (DoesFit(rotatedTetromino)) {
+			rotateMaster(currentTetromino, CLOCKWISE_ROTATION);
+			currentTetromino = rotatedTetromino;
+		}
+		break;
+		//case 5:
+		//	rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
+		//	if (DoesFit(rotatedTetromino)) {
+		//		rotateMaster(currentTetromino, COUNTERCLOCKWISE_ROTAION);
+		//		currentTetromino = rotatedTetromino; 
+		//	}
+		//	break;
+	}
+}
+#pragma endregion
 
 #pragma region LaborintOnVisualStudio
 
 
- //void printTheGame() {
-	// unsigned char i;
-	// unsigned char j;
-	// system("cls");
-	// for (i = 0; i < DISPLAY_HEIGHT; i++) {
-	//	 for (j = 0; j < DISPLAY_WIDTH; j++) {
-	//		 if (tetrisField[i][j] == 1) {
-	//			 printf("1");
-	//		 }
-	//		 else if (tetrisField[i][j] == 0) {
-	//			 printf("0");
-	//		 }
-	//	 }
-	//	 printf("\n");
-	// }
- //}
+//void printTheGame() {
+   // unsigned char i;
+   // unsigned char j;
+   // system("cls");
+   // for (i = 0; i < DISPLAY_HEIGHT; i++) {
+   //	 for (j = 0; j < DISPLAY_WIDTH; j++) {
+   //		 if (tetrisField[i][j] == 1) {
+   //			 printf("1");
+   //		 }
+   //		 else if (tetrisField[i][j] == 0) {
+   //			 printf("0");
+   //		 }
+   //	 }
+   //	 printf("\n");
+   // }
+//}
 
 
 #pragma endregion
@@ -176,8 +261,8 @@ void rotateMaster(Tetromino inputTet, int rotationDirection)
 /*The following functions need to be implemented
 1. collision detector // (ref: cllision&stuff)
 2. graphic renderer // (ref: graphicEngin)
-3. row eliminator i.e when a row completes it should remove
-the blocks and pull the above row down
+3. row eliminator i.e when a row completes it should remove 
+the blocks and pull the above row down // (ref: score_mechanism)
 4. Display initializer // (ref: uno32initializer)
 5. IOSystem // (ref: uno32initializer)
 6. random shape generator // (ref: spawner)

@@ -185,7 +185,7 @@ void timerInitializer() {
 	IPCSET(2) = 0x1f; //0001 1111 - Bit 4:2 Priority, Bit 1:0 Subpriority.
 	IECSET(0) = 0x100; // 0001 0000 0000 - Bit 8 enable interupts from Timer2
 
-	enable_interrupts();
+	//enable_interrupts();
 
 	IPCSET(2) = 0x1f;
 	IECSET(0) = 0x100;
@@ -215,11 +215,11 @@ void uno32Initializer() {
 
 }
 
-void user_isr() {
-	OledUpdate();
-	IFSCLR(0) = 0x100;//0001 0000 0000
-	return;
-}
+//void user_isr() {
+//	OledUpdate();
+//	IFSCLR(0) = 0x100;//0001 0000 0000
+//	return;
+//}
 
 #pragma endregion
 
@@ -240,6 +240,12 @@ void fieldInitializer() {
 		}
 	}
 }
+ void clearDisplay()
+ {
+   int i;
+   for(i = 0; i < 512; i++)
+     OLED_DisplayBuffer[i] = 0;
+ }
 #pragma endregion
 
 
