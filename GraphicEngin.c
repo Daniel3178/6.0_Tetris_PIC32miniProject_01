@@ -35,10 +35,10 @@ void draw() {
 	unsigned char buffer [32][128] = { 0 };
 	int i;
 	int j; 
-	for (i = 0; i < currentShape.width; i++) {
-		for (j = 0; j < currentShape.width; j++) {
-			if (* ((currentShape.myArray + i*currentShape.width) + j)) {
-				buffer[currentShape.y + i][currentShape.x + j] = *((currentShape.myArray+ i*currentShape.width) + j);
+	for (i = 0; i < currentTetromino.width; i++) {
+		for (j = 0; j < currentTetromino.width; j++) {
+			if (* ((currentTetromino.matrix + i* currentTetromino.width) + j)) {
+				buffer[currentTetromino.y + i][currentTetromino.x + j] = *((currentTetromino.matrix + i* currentTetromino.width) + j);
 			}
 		}
 	}

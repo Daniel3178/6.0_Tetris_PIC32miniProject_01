@@ -128,15 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Assets.c" />
-    <ClCompile Include="DisplayInitializer.c" />
+    <ClCompile Include="Initializer.c" />
     <ClCompile Include="GameEngin.c" />
     <ClCompile Include="GraphicEngin.c" />
-    <ClCompile Include="IOSystem.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="Menu.c" />
     <ClCompile Include="ScoreManager.c" />
-    <ClCompile Include="TetrominoGenerator.c" />
-    <ClCompile Include="Timer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pic32max.h" />

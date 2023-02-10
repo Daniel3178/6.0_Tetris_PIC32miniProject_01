@@ -1,3 +1,9 @@
-﻿  TetrominoGenerator.c
-F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\TetrominoGenerator.c(14,31): warning C4047: '=': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
+﻿  Assets.c
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(91,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[6]'
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(92,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[12]'
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(93,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(94,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(95,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(96,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
+F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\Assets.c(97,1): warning C4047: 'initializing': 'unsigned char *' differs in levels of indirection from 'unsigned char (*)[9]'
   06_Tetris_PIC32miniProject01.vcxproj -> F:\Programering Archive\SideProjects\06_Tetris_PIC32miniProject01\x64\Debug\06_Tetris_PIC32miniProject01.exe

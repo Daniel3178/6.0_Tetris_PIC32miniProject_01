@@ -24,22 +24,13 @@
     <ClCompile Include="Main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TetrominoGenerator.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Menu.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IOSystem.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ScoreManager.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DisplayInitializer.c">
+    <ClCompile Include="Initializer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GraphicEngin.c">
