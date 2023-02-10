@@ -34,36 +34,50 @@ unsigned char OLED_DisplayBuffer[512];
 
 typedef struct Asset
 {
-	unsigned char* matrix;
-	int id;
+	//unsigned char** matrix;
+	unsigned char* myArray;
+	int width;
+	int x;
+	int y;
 }Asset;
 
-void rotateMaster(Asset input, int rotationDirection);
+//void rotateMaster(Asset input, int rotationDirection);
 void assetsInitializer();
  //void printMatrix(Asset currentAsset);
-void rotate12x12matrix(unsigned char* matrixToRotateP, int rotationDirection);
-void rotate9x9matrix(unsigned char* matrixToRotateP, int rotationDirection);
+//void rotate12x12matrix(unsigned char* matrixToRotateP, int rotationDirection);
+//void rotate9x9matrix(unsigned char* matrixToRotateP, int rotationDirection);
 void quickTimer(int timeout);
 // void user_isr();
 void fieldInitializer();
-void updateAsset(Asset assetToPrint, int xPos, int yPos);
+//void updateAsset(Asset assetToPrint, int xPos, int yPos);
 //void printTheGame();
-// void delay(int ms);
+ //void delay(int ms);
 void OledHostInit();
 void OledDspInit();
 void renderGame();
 // void enable_interrupts();
 void renderPixel(unsigned char xPos, unsigned char yPos, unsigned char state);
 void OledUpdate();
-void updatePixel(unsigned char x, unsigned char y, unsigned char state);
+//void updatePixel(unsigned char x, unsigned char y, unsigned char state);
 // void memcpy(void *dest, const void * src, unsigned short len);
 
-Asset square_shape;
-Asset stright_shape;
-Asset left_l_sahpe;
-Asset right_l_shape;
-Asset left_skew_shape;
-Asset right_skew_shape;
-Asset t_shape;
-Asset currentShape;
+//Asset square_shape;
+//Asset stright_shape;
+//Asset left_l_sahpe;
+//Asset right_l_shape;
+//Asset left_skew_shape;
+//Asset right_skew_shape;
+//Asset t_shape;
+//void rotateClockwise(Asset myAssetToRotate);
+Asset rotatedAsset;
+void rotateCounterClockwise(Asset myAssetToRotate);
+//Asset duplicateAsset(Asset myAsset);
+int DoesFit(Asset myAsset);
+
+void draw();
+//Asset assetCollection[2];
+Asset  currentShape;
+
+unsigned char leftLT[9][9];
+
 #endif

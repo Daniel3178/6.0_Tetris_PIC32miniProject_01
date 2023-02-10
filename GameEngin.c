@@ -2,11 +2,17 @@
 #include <stdint.h>
 #include <stdio.h>
 #include "TetrisGeneral.h"
+#include <time.h>
 
-unsigned char rotated12x12Matrix[12][12];
-unsigned char rotated9x9Matrix[9][9];
+//unsigned char rotated12x12Matrix[12][12];
+//unsigned char rotated9x9Matrix[9][9];
 
 unsigned char tetrisField[32][128];
+Asset current;
+Asset temp;
+Asset duplicate;
+Asset rotatedAsset; 
+unsigned char rotatedMatrix[9][9];
 
 void fieldInitializer() {
 	unsigned char i = 0;
@@ -24,102 +30,189 @@ void fieldInitializer() {
 	}
 }
 
+#pragma region USEFUL_TOOLS
+//Asset duplicateAsset(Asset myAsset) {
+//	Asset newAsset = myAsset;
+//	unsigned char** copyshape = myAsset.matrix;
+//	
+//	int i;
+//	int j; 
+//	for (i = 0; i < myAsset.width; i++) {
+//	
+//
+//		for (j = 0; j < myAsset.width; j++) {
+//			newAsset.matrix[i][j] = copyshape[i][j];
+//		}
+//	}
+//	return newAsset;
+//}
+
+
+#pragma endregion
+
+#pragma region ROTATION
+
+
+//void rotateClockwise(Asset myAssetToRotate) {
+//	 Asset tempo = duplicateAsset(myAssetToRotate); 
+//	//unsigned char tempArray[9][9];
+//	int i; 
+//	int j;
+//	int k= 0;
+//	//for (i = 0; i < myAssetToRotate.width; i++) {
+//	//	for (j = myAssetToRotate.width - 1; j >= 0; j--) {
+//	//		tempArray[j][i] = myAssetToRotate.matrix[i][k];
+//	//		k++;
+//	//	}
+//	//	k = 0;
+//	//}
+//	for (i = 0; i < myAssetToRotate.width; i++) {
+//		for (j = 0, k = myAssetToRotate.width - 1; j < myAssetToRotate.width; j++, k--) {
+//			tempo.matrix[i][j] = myAssetToRotate.matrix[k][i];
+//		}
+//	}
+//	// for (i = 0; i < myAssetToRotate.width; i++) {
+//	//	for (j = 0; j < myAssetToRotate.width; j++) {
+//	//		rotatedAsset.matrix[i][j] = tempArray.matrix[i][j];
+//	//		rotatedAsset.width = myAssetToRotate.width;
+//	//		rotatedAsset.x = myAssetToRotate.x;
+//	//		rotatedAsset.y = myAssetToRotate.y;
+//	//	}
+//	//}
+//	myAssetToRotate = tempo;
+//	//myAssetToRotate.x = tempo.y;
+//	//myAssetToRotate.y = tempo.x;
+//	
+//
+//}
+
+void rotateCounterClockwise(Asset myAssetToRotate) {
+	unsigned char temp[9][9];
+	for (int i = 0; i < myAssetToRotate.width; i++) {
+		for (int j = myAssetToRotate.width - 1; j >= 0; j--) {
+			temp[j][i] = *myAssetToRotate.myArray++;
+
+		}
+	}
+	memcpy(rotatedMatrix, temp, sizeof(temp));
+	currentShape.myArray = rotatedMatrix;
+
+
+}
+#pragma endregion
+#pragma region COLLISION
+int DoesFit(Asset myAsset) {
+	for (int i = 0; i < myAsset.width; i++) {
+		for (int j = 0; j < myAsset.width; j++) {
+			if (tetrisField[myAsset.y + i][myAsset.x + j] && *((myAsset.myArray + i * myAsset.width) + j)) {
+				return 0;
+			}
+			//else if ((myAsset.x + j < 0 || myAsset.x + j >= 32 || myAsset.y + i >= 128)) {
+			//	if (*(myAsset.myArray + i * myAsset.width) + j) {
+			//		return 0;
+			//	}
+			//}
+		}
+	}
+	return 1;
+}
+#pragma endregion
 
 
 #pragma region ROTATION_STUFF
 
-void rotateMaster(Asset input, int rotationDirection)
-{
-	switch (input.id)
-	{
-	case SHAPE_ID_6X6:
-		// printf("SHAPE_ID_6X6");
-		break;
-	case SHAPE_ID_9X9:
-		// printf("SHAPE_ID_9X9");
-		rotate9x9matrix(input.matrix, rotationDirection);
-		break;
-	case SHAPE_ID_12X12:
-		// printf("SHAPE_ID_12X12");
-		rotate12x12matrix(input.matrix, rotationDirection);
-		break;
-	}
-}
+//void rotateMaster(Asset input, int rotationDirection)
+//{
+//	switch (input.id)
+//	{
+//	case SHAPE_ID_6X6:
+//		// printf("SHAPE_ID_6X6");
+//		break;
+//	case SHAPE_ID_9X9:
+//		// printf("SHAPE_ID_9X9");
+//		rotate9x9matrix(input.matrix, rotationDirection);
+//		break;
+//	case SHAPE_ID_12X12:
+//		// printf("SHAPE_ID_12X12");
+//		rotate12x12matrix(input.matrix, rotationDirection);
+//		break;
+//	}
+//}
 
-void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
-{
-	unsigned char i;
-    unsigned char j;
-
-	unsigned char tempArray[9][9];
-	if (rotationDirection)
-	{ // COUNTERCLOCKWISE ROTATION
-
-		for (i = 0; i < 9; i++)
-		{
-			for (j = 8; j >= 0; j--)
-			{
-				tempArray[j][i] = *matrixToRotateP++;
-			}
-		}
-		for(i = 0; i < 9; i++){
-			for (j = 0; j < 9; j++){
-				rotated9x9Matrix[i][j]= tempArray[i][j];
-			}
-		}
-	}
-
-	else
-	{ // CLOCKWISE ROTATION
-	
-		for (i = 8; i >= 0; i--)
-		{
-			for (j = 0; j < 9; j++)
-			{
-				tempArray[j][i] = *matrixToRotateP++;
-			}
-		}
-		for(i = 0; i < 9; i++){
-			for (j = 0; j < 9; j++){
-				rotated9x9Matrix[i][j]= tempArray[i][j];
-			}
-		}
-	}
-	 memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
-	currentShape.matrix = &rotated9x9Matrix[0][0];
-}
-
-void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
-{
-	unsigned char i;
-    unsigned char j;
-	unsigned char tempArray[12][12];
-
-	if (rotationDirection)
-	{ // COUNTERCLOCKWISE ROTATION
-		for (i = 0; i < 12; i++)
-		{
-			for (j = 11; j >= 0; j--)
-			{
-				tempArray[j][i] = *matrixToRotateP++;
-			}
-		}
-	}
-
-	else
-	{ // CLOCKWISE ROTATION
-
-		for (i = 11; i >= 0; i--)
-		{
-			for (j = 0; j < 12; j++)
-			{
-				tempArray[j][i] = *matrixToRotateP++;
-			}
-		}
-	}
-	memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
-	currentShape.matrix = &rotated12x12Matrix[0][0];
-}
+//void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
+//{
+//	unsigned char i;
+//    unsigned char j;
+//
+//	unsigned char tempArray[9][9];
+//	if (rotationDirection)
+//	{ // COUNTERCLOCKWISE ROTATION
+//
+//		for (i = 0; i < 9; i++)
+//		{
+//			for (j = 8; j >= 0; j--)
+//			{
+//				tempArray[j][i] = *matrixToRotateP++;
+//			}
+//		}
+//		for(i = 0; i < 9; i++){
+//			for (j = 0; j < 9; j++){
+//				rotated9x9Matrix[i][j]= tempArray[i][j];
+//			}
+//		}
+//	}
+//
+//	else
+//	{ // CLOCKWISE ROTATION
+//	
+//		for (i = 8; i >= 0; i--)
+//		{
+//			for (j = 0; j < 9; j++)
+//			{
+//				tempArray[j][i] = *matrixToRotateP++;
+//			}
+//		}
+//		for(i = 0; i < 9; i++){
+//			for (j = 0; j < 9; j++){
+//				rotated9x9Matrix[i][j]= tempArray[i][j];
+//			}
+//		}
+//	}
+//	 memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
+//	currentShape.matrix = &rotated9x9Matrix[0][0];
+//}
+//
+//void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
+//{
+//	unsigned char i;
+//    unsigned char j;
+//	unsigned char tempArray[12][12];
+//
+//	if (rotationDirection)
+//	{ // COUNTERCLOCKWISE ROTATION
+//		for (i = 0; i < 12; i++)
+//		{
+//			for (j = 11; j >= 0; j--)
+//			{
+//				tempArray[j][i] = *matrixToRotateP++;
+//			}
+//		}
+//	}
+//
+//	else
+//	{ // CLOCKWISE ROTATION
+//
+//		for (i = 11; i >= 0; i--)
+//		{
+//			for (j = 0; j < 12; j++)
+//			{
+//				tempArray[j][i] = *matrixToRotateP++;
+//			}
+//		}
+//	}
+//	memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
+//	currentShape.matrix = &rotated12x12Matrix[0][0];
+//}
 
 #pragma endregion
 
@@ -131,76 +224,7 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 
 #pragma region LaborintOnVisualStudio
 
- //void printMatrix(Asset currentAsset)
- //{
- //	switch (currentAsset.id)
- //	{
- //	case SHAPE_ID_6X6:
- //		// int i;
- //		// int j;
- //		for (i = 0; i < 6; i++)
- //		{
- //			for (j = 0; j < 6; j++)
- //			{
- //				if (*currentAsset.matrix == 0)
- //				{
 
- //					printf("0");
- //				}
- //				else if (*currentAsset.matrix == 1)
- //				{
-
- //					printf("1");
- //				}
- //				currentAsset.matrix++;
- //			}
- //			printf("\n");
- //		}
- //		break;
- //	case SHAPE_ID_9X9:
- //		// int i;
- //		// int j;
-
- //		for (i = 0; i < 9; i++)
- //		{
- //			for (j = 0; j < 9; j++)
- //			{
- //				if (*currentAsset.matrix == 0)
- //				{
- //					printf("0");
- //				}
- //				else if (*currentAsset.matrix == 1)
- //				{
- //					printf("1");
- //				}
- //				currentAsset.matrix++;
- //			}
- //			printf("\n");
- //		}
-
- //		break;
- //	case SHAPE_ID_12X12:
- //		// int i;
- //		// int j;
- //		for (i = 0; i < 12; i++)
- //		{
- //			for (j = 0; j < 12; j++)
- //			{
- //				if (*currentAsset.matrix == 0)
- //				{
- //					 printf("0");
- //				}
- //				else if (*currentAsset.matrix == 1)
- //				{
- //					 printf("1");
- //				}
- //				currentAsset.matrix++;
- //			}
- //			 printf("\n");
- //		}
- //		break;
- //	}
- //}
  //void printTheGame() {
 	// unsigned char i;
 	// unsigned char j;
@@ -217,10 +241,7 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 	//	 printf("\n");
 	// }
  //}
- //void delay(ms) {
-	// clock_t timeDelay = ms + clock();
-	// while (timeDelay > clock());
- //}
+
 
 #pragma endregion
 // check if it fits before roatiting the matrix

@@ -1,7 +1,28 @@
 
 #include "TetrisGeneral.h"
+#include <stdlib.h>
 
 #pragma region ASSETS_MATRIX
+
+//Asset assetCollection[2] = { // Follow the same pattern and add the rest
+//	{(unsigned char* []) { //SquareT
+//(unsigned char[]) {1, 1, 1, 1, 1, 1},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1}}, 6, 0 ,0},
+//	{(unsigned char* []) { // leftLT
+//(unsigned char[]) {1, 1, 1, 0, 0, 0, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 0, 0, 0, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 0, 0, 0, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 0, 0, 0, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 0, 0, 0, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 0, 0, 0, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1, 0, 0, 0},
+//(unsigned char[]) {1, 1, 1, 1, 1, 1, 0, 0, 0}}, 9, 128 ,5}};
+
 
 unsigned char squareT[6][6] = {
    {1, 1, 1, 1, 1, 1},
