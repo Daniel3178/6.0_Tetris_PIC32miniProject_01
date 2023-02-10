@@ -238,6 +238,7 @@ void play(int btn) {
 #pragma region LaborintOnVisualStudio
 
 
+
 //void printTheGame() {
    // unsigned char i;
    // unsigned char j;
@@ -257,6 +258,8 @@ void play(int btn) {
 
 
 #pragma endregion
+
+
 // check if it fits before roatiting the matrix // (ref: collision&stuff)
 /*The following functions need to be implemented
 1. collision detector // (ref: cllision&stuff)
