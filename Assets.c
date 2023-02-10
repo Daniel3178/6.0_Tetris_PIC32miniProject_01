@@ -1,7 +1,7 @@
 
 #include "TetrisGeneral.h"
 
-#pragma region ASSETS_MATRIX
+#pragma region TETROMINOES
 
 unsigned char squareT[6][6] = {
    {1, 1, 1, 1, 1, 1},
@@ -86,9 +86,20 @@ unsigned char tT[9][9] = {
  {0, 0, 0, 1, 1, 1, 0, 0, 0},
  {0, 0, 0, 1, 1, 1, 0, 0, 0}
 };
+
+Tetromino tetCollection[7] = {
+	{squareT, 6, 100, 5, TET_ID_6X6},
+	{straightT, 12, 100, 5, TET_ID_12X12 },
+	{leftLT,9,100,5,TET_ID_9X9},
+	{rightLT,9, 100,5,TET_ID_9X9},
+	{leftSkewT,9, 100,5,TET_ID_9X9},
+	{rightSkewT,9, 100,5,TET_ID_9X9},
+	{tT,9, 100,5,TET_ID_9X9}
+};
+
 #pragma endregion
 
-#pragma region FONT/DIGITS_MATRIX
+#pragma region FONT/DIGITS
 
 unsigned char alphabetA_Z[28][30] =
 {

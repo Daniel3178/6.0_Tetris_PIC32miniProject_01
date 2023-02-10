@@ -3,6 +3,8 @@
 
 unsigned char OLED_DisplayBuffer[512];
 
+#pragma region DISPLAY_INITIALIZER_STUFF
+
 void OledPutBuffer(int cb, unsigned char* rgbTx)
 {
 	int ib;
@@ -24,8 +26,6 @@ void OledPutBuffer(int cb, unsigned char* rgbTx)
 		bTmp = SPI2BUF;
 	}
 }
-
-
 unsigned char Spi2PutByte(unsigned char bVal)
 {
 	unsigned char bRx;
@@ -73,7 +73,6 @@ void OledHostInit()
 	TRISGCLR = 0X200; //RG9 is the pin index 9 and should be turned of to make it as an output. Source: family data sheet p.74
 	PORTGSET = 0X200;
 }
-
 void OledDspInit()
 {
 	/* We're going to be sending commands, so clear the Data/Cmd bit
@@ -124,7 +123,6 @@ void OledDspInit()
 	*/
 	Spi2PutByte(0xAF);
 }
-
 void OledUpdate()
 {
 	int ipag;
@@ -151,10 +149,104 @@ void OledUpdate()
 		pb += 128;
 	}
 }
-// void user_isr() {
-// 	OledUpdate();
-// 	IFSCLR(0) = 0x100;//0001 0000 0000
-// 	return;
-// }
+
+#pragma endregion
+
+#pragma region IO_INITIALIZER_STUFF
+
+void ioInitializer() {
+	TRISECLR = 0xff; // the led lamps 0 - 7
+	PORTECLR = 0x000000ff;
+	PORTE = 0;
+	TRISDSET = 0xfe0; //switches and btns 
+	TRISFSET = 0x2; //btn 1 
+}
+
+int getws(void) { //returns the state of swich 1 through 4 where the lsb represents state of switch 1
+	int result = ((((PORTD >> 8) & 0X8) | ((PORTD >> 8) & 0x4) | ((PORTD >> 8) & 0x2) | ((PORTD >> 8) & 0X1)) & 0Xf);
+	return result;
+}
+
+int getbtns(void) { //return the state of btn 1 through 4 where the lsb represents state of btn 1
+	int result = ((((PORTD >> 5) & 0X8) | ((PORTD >> 5) & 0X4) | ((PORTD >> 5) & 0X2) | ((PORTF >> 1) & 0X1)) & 0Xf);
+	return result;
+}
+#pragma endregion
+
+#pragma region TIMER_INITIALIZER_STUFF
+void timerInitializer() {
+	//Initialize Timer2
+	T2CONSET = 0x70; //0111 0000, Sets prescale to 1:256
+	IFSCLR(0) = 0x100;//0001 0000 0000
+	PR2 = 7812; //40 FPS
+	TMR2 = 0;
+	T2CONSET = 0x08000; // 1000 0000 0000 0000, Start timer
+
+	IPCSET(2) = 0x1f; //0001 1111 - Bit 4:2 Priority, Bit 1:0 Subpriority.
+	IECSET(0) = 0x100; // 0001 0000 0000 - Bit 8 enable interupts from Timer2
+
+	//enable_interrupts();
+
+	IPCSET(2) = 0x1f;
+	IECSET(0) = 0x100;
+}
+
+void quickTimer(int timeout) {
+	int i;
+	for (i = 0; i < timeout; i++) {
+		i++;
+	}
+}
+#pragma endregion
+
+#pragma region UNO32_INITIALIZER
+
+void uno32Initializer() {
+
+	ioInitializer();
+	//Set the seed for the random
+	//srand(getSwitches());
+
+	//Setup display
+	OledHostInit();
+	OledDspInit();
+
+	timerInitializer();
+
+}
+
+//void user_isr() {
+//	OledUpdate();
+//	IFSCLR(0) = 0x100;//0001 0000 0000
+//	return;
+//}
+
+#pragma endregion
+
+#pragma region FIELD_INITIALIZER
+
+void fieldInitializer() {
+	unsigned char i = 0;
+	unsigned char j = 0;
+
+	for (i = 0; i < 32; i++) {
+		for (j = 0; j < 128; j++) {
+			if (i == 0 || i == 31 || j == 0 || j == 127) {
+				tetrisField[i][j] = 1;
+			}
+			else {
+				tetrisField[i][j] = 0;
+			}
+		}
+	}
+}
+ void clearDisplay()
+ {
+   int i;
+   for(i = 0; i < 512; i++)
+     OLED_DisplayBuffer[i] = 0;
+ }
+#pragma endregion
+
 
 // /*function to print letters/words/digit etc*/
