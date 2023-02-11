@@ -2,6 +2,7 @@
 #ifndef _Tetris_Config_H
 #define _Tetris_Config_H
 #include <stdint.h>
+#include <stdlib.h>
 
 /*Definitions*/
 #define DISPLAY_WIDTH 128
@@ -39,24 +40,25 @@ typedef struct Tetromino
 
 void rotateMaster(Tetromino inputTet, int rotationDirection);
 void quickTimer(int timeout);
-//void user_isr();
+void user_isr();
 void fieldInitializer();
- //void delay(int ms);
-//void OledHostInit();
-//void OledDspInit();
+
 void renderGame();
- //void enable_interrupts();
-void renderPixel(unsigned char xPos, unsigned char yPos, unsigned char state);
+ void enable_interrupts();
+void renderPixel(int xPos, int yPos, unsigned char state);
 void OledUpdate();
 //void updatePixel(unsigned char x, unsigned char y, unsigned char state);
-
+int getbtns(void);//return the state of btn 1 through 4 where the lsb represents state of btn 1
+// void *memcpy(void *, const void *, size_t);
 int DoesFit(Tetromino myAsset);
 void spawnNewTet();
 
 void fetchToTetField();
 void uno32Initializer();
 void draw();
-
+void play(int btn);
+// void rand();
+int getButtonsPress();
 Tetromino tetCollection[7];
 Tetromino rotatedTetromino;
 Tetromino currentTetromino;

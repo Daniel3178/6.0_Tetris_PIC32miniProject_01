@@ -168,9 +168,12 @@ int getws(void) { //returns the state of swich 1 through 4 where the lsb represe
 }
 
 int getbtns(void) { //return the state of btn 1 through 4 where the lsb represents state of btn 1
-	int result = ((((PORTD >> 5) & 0X8) | ((PORTD >> 5) & 0X4) | ((PORTD >> 5) & 0X2) | ((PORTF >> 1) & 0X1)) & 0Xf);
+	int result = ((PORTD & 0x000000e0) >> 4) | ((PORTF & 0x00000002) >> 1);
+	delay(1);
 	return result;
 }
+
+
 #pragma endregion
 
 #pragma region TIMER_INITIALIZER_STUFF
@@ -185,7 +188,7 @@ void timerInitializer() {
 	IPCSET(2) = 0x1f; //0001 1111 - Bit 4:2 Priority, Bit 1:0 Subpriority.
 	IECSET(0) = 0x100; // 0001 0000 0000 - Bit 8 enable interupts from Timer2
 
-	//enable_interrupts();
+	enable_interrupts();
 
 	IPCSET(2) = 0x1f;
 	IECSET(0) = 0x100;
@@ -204,10 +207,7 @@ void quickTimer(int timeout) {
 void uno32Initializer() {
 
 	ioInitializer();
-	//Set the seed for the random
-	//srand(getSwitches());
-
-	//Setup display
+	// display settings
 	OledHostInit();
 	OledDspInit();
 
@@ -215,11 +215,11 @@ void uno32Initializer() {
 
 }
 
-//void user_isr() {
-//	OledUpdate();
-//	IFSCLR(0) = 0x100;//0001 0000 0000
-//	return;
-//}
+void user_isr() {
+	OledUpdate();
+	IFSCLR(0) = 0x100;//0001 0000 0000
+	return;
+}
 
 #pragma endregion
 
@@ -231,7 +231,7 @@ void fieldInitializer() {
 
 	for (i = 0; i < 32; i++) {
 		for (j = 0; j < 128; j++) {
-			if (i == 0 || i == 31 || j == 0 || j == 127) {
+			if ((i == 0 && j > 36) || (i == 31 && j >36) || j == 36 || j == 127) {
 				tetrisField[i][j] = 1;
 			}
 			else {
@@ -250,3 +250,11 @@ void fieldInitializer() {
 
 
 // /*function to print letters/words/digit etc*/
+// static unsigned int seed = 1;
+// void srand (int newseed) {
+//     seed = (unsigned)newseed & 0x7fffffffU;
+// }
+// int rand (void) {
+//     seed = (seed * 1103515245U + 12345U) & 0x7fffffffU;
+//     return (int)seed;
+// }

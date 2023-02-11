@@ -7,7 +7,9 @@ GameEngin.c.o: GameEngin.c \
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdarg.h \
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stddef.h \
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/string.h \
- TetrisGeneral.h
+ TetrisGeneral.h \
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/stdlib.h \
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdbool.h
 GameEngin.c :
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/stdint.h :
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdint-gcc.h :
@@ -18,3 +20,5 @@ GameEngin.c :
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stddef.h :
  /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/string.h :
  TetrisGeneral.h :
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/include/stdlib.h :
+ /Applications/mcb32tools.app/Contents/Resources/Toolchain/lib/gcc/mipsel-mcb32-elf/4.9.2/include/stdbool.h :
