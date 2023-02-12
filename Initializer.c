@@ -208,6 +208,7 @@ void uno32Initializer() {
 
 	ioInitializer();
 	// display settings
+	seed =getws();
 	OledHostInit();
 	OledDspInit();
 

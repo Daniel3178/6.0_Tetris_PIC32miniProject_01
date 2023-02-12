@@ -56,7 +56,7 @@ void fetchToTetField()
 void spawnNewTet()
 {
 	// int temp =rand();
-	currentTetromino = tetCollection[rand()%3];
+	currentTetromino = tetCollection[rand() % 7];
 	currentTetromino.x = 100;
 	currentTetromino.y = 7;
 }
@@ -138,7 +138,14 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			}
 		}
 	}
-	memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
+	for (i = 0; i < 12; i++)
+	{
+		for (j = 0; j < 12; j++)
+		{
+			rotated12x12Matrix[i][j] = tempArray[i][j];
+		}
+	}
+	// memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
 	rotatedTetromino.matrix = rotated12x12Matrix;
 }
 
@@ -148,7 +155,6 @@ void rotateMaster(Tetromino inputTet, int rotationDirection)
 	rotatedTetromino.width = inputTet.width;
 	rotatedTetromino.x = inputTet.x;
 	rotatedTetromino.y = inputTet.y;
-
 
 	switch (inputTet.id)
 	{
@@ -177,7 +183,7 @@ void scoreCheck()
 	int sum;
 	int counter = 0;
 
-	for (i = DISPLAY_WIDTH-1; i >=37 ; i--)
+	for (i = DISPLAY_WIDTH - 1; i >= 37; i--)
 	{
 		sum = 0;
 		for (j = 1; j < DISPLAY_HEIGHT - 1; j++)
@@ -192,11 +198,11 @@ void scoreCheck()
 			counter++;
 			int k;
 			int m;
-			for (k = i; k < DISPLAY_WIDTH-1 ; k++)
+			for (k = i; k < DISPLAY_WIDTH - 1; k++)
 			{
-				for (m = 1; m < DISPLAY_HEIGHT-1; m++)
+				for (m = 1; m < DISPLAY_HEIGHT - 1; m++)
 				{ // all the columns in the right should shift to the left by one
-					tetrisField[m][k] = tetrisField[m][k+1];
+					tetrisField[m][k] = tetrisField[m][k + 1];
 				}
 			}
 			for (m = 1; m < DISPLAY_HEIGHT - 1; m++)
@@ -260,28 +266,28 @@ void play(int btn)
 		break;
 	case 1:
 		rotateMaster(tempTetromino, CLOCKWISE_ROTATION);
-		if (DoesFit(rotatedTetromino)) {
-			currentTetromino.matrix = rotatedTetromino.matrix;
-		}
-		else {
-			rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
-		}
-	
-	}
-		tempTetromino.x -= 3;
-		if (DoesFit(tempTetromino))
+		if (DoesFit(rotatedTetromino))
 		{
-			currentTetromino.x -= 3;
-			delay(2);
+			currentTetromino.matrix = rotatedTetromino.matrix;
 		}
 		else
 		{
-			fetchToTetField();
-			scoreCheck();
-			spawnNewTet();
-			tempTetromino.x += 3;
+			rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
 		}
-
+	}
+	tempTetromino.x -= 3;
+	if (DoesFit(tempTetromino))
+	{
+		currentTetromino.x -= 3;
+		delay(2);
+	}
+	else
+	{
+		fetchToTetField();
+		scoreCheck();
+		spawnNewTet();
+		tempTetromino.x += 3;
+	}
 }
 #pragma endregion
 
@@ -304,6 +310,16 @@ void play(int btn)
 //  }
 //}
 
+/**
+ * @brief Generates a pseudo-random number.
+ *
+ * @returns A pseudo-random integer.
+ */
+int rand(void)
+{
+	seed = (seed * 1103515245) + 12345;
+	return ((seed >> 16) & 0x7fff);
+}
 #pragma endregion
 
 // check if it fits before roatiting the matrix // (ref: collision&stuff)

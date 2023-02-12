@@ -57,12 +57,12 @@ void fetchToTetField();
 void uno32Initializer();
 void draw();
 void play(int btn);
-// void rand();
+int rand(void);
 int getButtonsPress();
 Tetromino tetCollection[7];
 Tetromino rotatedTetromino;
 Tetromino currentTetromino;
 Tetromino tempTetromino;
-
+int seed;
 
 #endif
