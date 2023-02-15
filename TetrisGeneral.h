@@ -20,6 +20,8 @@
 #define PLAY_RIGHT 0x4
 #define PLAY_LEFT 0x2
 #define PLAY_ROTATE 0x1
+#define TRUE 1
+#define FALSE 0
 /*Tetrominoes & font declaration */
 
 unsigned char alphabetA_Z[28][30];
@@ -59,10 +61,18 @@ void draw();
 void play(int btn);
 int rand(void);
 int getButtonsPress();
+void printScore(int currentScore, int x, int y);
+void printChar(char myChar, int x, int y);
+void printString(char *myChar, int x, int y);
+void printTetromino(Tetromino tetToPrint, int xPos, int yPos);
+
 Tetromino tetCollection[7];
 Tetromino rotatedTetromino;
 Tetromino currentTetromino;
 Tetromino tempTetromino;
+Tetromino nextTetromino;
 int seed;
-
+int timeoutCount;
+int isGameActive;
+int level;
 #endif

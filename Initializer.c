@@ -169,7 +169,8 @@ int getws(void) { //returns the state of swich 1 through 4 where the lsb represe
 
 int getbtns(void) { //return the state of btn 1 through 4 where the lsb represents state of btn 1
 	int result = ((PORTD & 0x000000e0) >> 4) | ((PORTF & 0x00000002) >> 1);
-	delay(1);
+	// delay(1);
+	quickTimer(500000);
 	return result;
 }
 
@@ -218,7 +219,30 @@ void uno32Initializer() {
 
 void user_isr() {
 	OledUpdate();
-	IFSCLR(0) = 0x100;//0001 0000 0000
+    timeoutCount++;
+	IFSCLR(0) = 0x100;
+    PORTESET = 0X1;
+   
+  
+  if ((timeoutCount >= 40/level) && isGameActive )
+  {
+
+		tempTetromino.x -= 3;
+	if (DoesFit(tempTetromino))
+	{
+		currentTetromino.x -= 3;
+		
+	}
+	else
+	{
+		fetchToTetField();
+		scoreCheck();
+		spawnNewTet();
+		tempTetromino.x += 3;
+	}
+    timeoutCount = 0;
+    
+  }
 	return;
 }
 
@@ -232,7 +256,7 @@ void fieldInitializer() {
 
 	for (i = 0; i < 32; i++) {
 		for (j = 0; j < 128; j++) {
-			if ((i == 0 && j > 36) || (i == 31 && j >36) || j == 36 || j == 127) {
+			if ((i == 0 && j > 36) || (i == 31 && j >36) || j == 36 ) {
 				tetrisField[i][j] = 1;
 			}
 			else {

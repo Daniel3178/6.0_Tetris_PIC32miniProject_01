@@ -4,10 +4,15 @@
 #include "TetrisGeneral.h"
 // #include <time.h>
 #include <stdlib.h>
+#include "pic32max.h"
 
 unsigned char tetrisField[32][128];
 unsigned char rotated9x9Matrix[9][9];
 unsigned char rotated12x12Matrix[12][12];
+int score = 0;
+int level = 1;
+int isGameActive = FALSE;
+
 
 #pragma region COLLISION &FETCH
 
@@ -52,14 +57,28 @@ void fetchToTetField()
 #pragma endregion
 
 #pragma region SPAWNER
-
+int spawnCurrentOnce = 1;
 void spawnNewTet()
 {
-	// int temp =rand();
+	if(spawnCurrentOnce) {
+
 	currentTetromino = tetCollection[rand() % 7];
-	currentTetromino.x = 100;
+	currentTetromino.x = 115;
 	currentTetromino.y = 7;
+	}
+	if(!spawnCurrentOnce) {
+		currentTetromino = nextTetromino;
+	}
+	if(!DoesFit(currentTetromino)){
+		isGameActive = FALSE;
+	}
+	nextTetromino = tetCollection[rand() % 7];
+	nextTetromino.x = 115;
+	nextTetromino.y = 7;
+	spawnCurrentOnce = 0;
+	
 }
+
 #pragma endregion
 
 #pragma region ROTATION
@@ -76,14 +95,8 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 		{
 			for (j = 8; j >= 0; j--)
 			{
+				// Why not fill the global array directly???
 				tempArray[j][i] = *matrixToRotateP++;
-			}
-		}
-		for (i = 0; i < 9; i++)
-		{
-			for (j = 0; j < 9; j++)
-			{
-				rotated9x9Matrix[i][j] = tempArray[i][j];
 			}
 		}
 	}
@@ -98,16 +111,16 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 				tempArray[j][i] = *matrixToRotateP++;
 			}
 		}
-		for (i = 0; i < 9; i++)
+	}
+	for (i = 0; i < 9; i++)
+	{
+		for (j = 0; j < 9; j++)
 		{
-			for (j = 0; j < 9; j++)
-			{
-				rotated9x9Matrix[i][j] = tempArray[i][j];
-			}
+			rotated9x9Matrix[i][j] = tempArray[i][j];
 		}
 	}
-	// memcpy(rotated9x9Matrix, tempArray, sizeof(tempArray));
-	rotatedTetromino.matrix = rotated9x9Matrix;
+
+	rotatedTetromino.matrix = &rotated9x9Matrix[0][0];
 }
 
 void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
@@ -118,8 +131,8 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 
 	if (rotationDirection)
 	{ // COUNTERCLOCKWISE ROTATION
-		for (i = 0; i < 12; i++)
-		{
+		for (i = 0; i < 12; i++)		
+		{ //Why not fill the global array directly????
 			for (j = 11; j >= 0; j--)
 			{
 				tempArray[j][i] = *matrixToRotateP++;
@@ -138,6 +151,7 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			}
 		}
 	}
+	//Why not fill the global array directly????
 	for (i = 0; i < 12; i++)
 	{
 		for (j = 0; j < 12; j++)
@@ -145,8 +159,8 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			rotated12x12Matrix[i][j] = tempArray[i][j];
 		}
 	}
-	// memcpy(rotated12x12Matrix, tempArray, sizeof(tempArray));
-	rotatedTetromino.matrix = rotated12x12Matrix;
+
+	rotatedTetromino.matrix = &rotated12x12Matrix[0][0];
 }
 
 void rotateMaster(Tetromino inputTet, int rotationDirection)
@@ -159,14 +173,14 @@ void rotateMaster(Tetromino inputTet, int rotationDirection)
 	switch (inputTet.id)
 	{
 	case TET_ID_6X6:
-		// printf("SHAPE_ID_6X6");
+
 		break;
 	case TET_ID_9X9:
-		// printf("SHAPE_ID_9X9");
+
 		rotate9x9matrix(inputTet.matrix, rotationDirection);
 		break;
 	case TET_ID_12X12:
-		// printf("SHAPE_ID_12X12");
+
 		rotate12x12matrix(inputTet.matrix, rotationDirection);
 		break;
 	}
@@ -211,7 +225,27 @@ void scoreCheck()
 			}
 		}
 	}
-	score += counter;
+	score += (counter/3)*100;
+	if(score < 100){
+		level = 1;
+		PORTECLR = 0;
+		PORTESET = 1;
+	}
+	if(score >=100){
+		level = 2;
+		PORTECLR = 0;
+		PORTESET = 2;
+	}
+	if(score >= 200){
+		level = 3;
+		PORTECLR = 0;
+		PORTESET = 4;
+	}
+	if(score >= 300){
+		level = 4;
+		PORTECLR = 0;
+		PORTESET = 8;
+	}
 }
 
 #pragma endregion
@@ -233,7 +267,7 @@ void play(int btn)
 		{
 			tempTetromino.y -= 3;
 		}
-		quickTimer(100);
+		// quickTimer(100);
 		break;
 	case 4:
 		tempTetromino.y -= 3;
@@ -245,10 +279,11 @@ void play(int btn)
 		{
 			tempTetromino.y += 3;
 		}
-		quickTimer(100);
+		// quickTimer(100);
 
 		break;
 	case 8:
+		quickTimer(100000);
 		tempTetromino.x -= 3;
 		if (DoesFit(tempTetromino))
 		{
@@ -261,7 +296,7 @@ void play(int btn)
 			spawnNewTet();
 			tempTetromino.x += 3;
 		}
-		quickTimer(100);
+		// quickTimer(100);
 
 		break;
 	case 1:
@@ -275,24 +310,25 @@ void play(int btn)
 			rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
 		}
 	}
-	tempTetromino.x -= 3;
-	if (DoesFit(tempTetromino))
-	{
-		currentTetromino.x -= 3;
-		delay(2);
-	}
-	else
-	{
-		fetchToTetField();
-		scoreCheck();
-		spawnNewTet();
-		tempTetromino.x += 3;
-	}
+	// tempTetromino.x -= 3;
+	// if (DoesFit(tempTetromino))
+	// {
+	// 	currentTetromino.x -= 3;
+	// 	delay(2);
+	// }
+	// else
+	// {
+	// 	fetchToTetField();
+	// 	scoreCheck();
+	// 	spawnNewTet();
+	// 	tempTetromino.x += 3;
+	// }
 }
 #pragma endregion
 
-#pragma region LaborintOnVisualStudio
+#pragma region USEFUL_FUNCTIONS
 
+#pragma region LaborintOnVisualStudio
 // void printTheGame() {
 //  unsigned char i;
 //  unsigned char j;
@@ -310,11 +346,6 @@ void play(int btn)
 //  }
 //}
 
-/**
- * @brief Generates a pseudo-random number.
- *
- * @returns A pseudo-random integer.
- */
 int rand(void)
 {
 	seed = (seed * 1103515245) + 12345;

@@ -88,13 +88,13 @@ unsigned char tT[9][9] = {
 };
 
 Tetromino tetCollection[7] = {
-	{squareT, 6, 100, 5, TET_ID_6X6},
-	{straightT, 12, 100, 5, TET_ID_12X12 },
-	{leftLT,9,100,5,TET_ID_9X9},
-	{rightLT,9, 100,5,TET_ID_9X9},
-	{leftSkewT,9, 100,5,TET_ID_9X9},
-	{rightSkewT,9, 100,5,TET_ID_9X9},
-	{tT,9, 100,5,TET_ID_9X9}
+	{&squareT[0][0], 6, 100, 5, TET_ID_6X6},
+	{&straightT[0][0], 12, 100, 5, TET_ID_12X12 },
+	{&leftLT[0][0],9,100,5,TET_ID_9X9},
+	{&rightLT[0][0],9, 100,5,TET_ID_9X9},
+	{&leftSkewT[0][0],9, 100,5,TET_ID_9X9},
+	{&rightSkewT[0][0],9, 100,5,TET_ID_9X9},
+	{&tT[0][0],9, 100,5,TET_ID_9X9}
 };
 
 #pragma endregion
