@@ -11,18 +11,24 @@ void *stdout = (void *)0;
 
 int main()
 {
+	currentScore = 0;
 	uno32Initializer();
-	fieldInitializer();
+	gameFieldInitializer();
 	spawnNewTet();
-	isGameActive = TRUE;
 
+	playerRegister();
+	displayCurrentPlayer();
+	delay(1000000);
+//  leaderBoardFieldInitializer();
+	clearDisplay();
 	printString("SCORE", 33, 1);
+	isGameActive = TRUE;
 	while (1)
 	{
 
 		draw();
 		play(getbtns());
-		printScore(score, 25, 5);
+		printScore(currentScore, 25, 5);
 		printTetromino(nextTetromino, 5, 9);
 		
 	}

@@ -2,6 +2,7 @@
 #include "TetrisGeneral.h"
 
 unsigned char OLED_DisplayBuffer[512];
+timeoutCount = 0;
 
 #pragma region DISPLAY_INITIALIZER_STUFF
 
@@ -219,12 +220,15 @@ void uno32Initializer() {
 
 void user_isr() {
 	OledUpdate();
+	if(isGameActive && (IFS(0) & 0x100)){
+
     timeoutCount++;
+	}
 	IFSCLR(0) = 0x100;
     PORTESET = 0X1;
    
   
-  if ((timeoutCount >= 40/level) && isGameActive )
+  if ((timeoutCount >= 40/level) && isGameActive == TRUE)
   {
 
 		tempTetromino.x -= 3;
@@ -250,7 +254,7 @@ void user_isr() {
 
 #pragma region FIELD_INITIALIZER
 
-void fieldInitializer() {
+void gameFieldInitializer() {
 	unsigned char i = 0;
 	unsigned char j = 0;
 
@@ -265,12 +269,7 @@ void fieldInitializer() {
 		}
 	}
 }
- void clearDisplay()
- {
-   int i;
-   for(i = 0; i < 512; i++)
-     OLED_DisplayBuffer[i] = 0;
- }
+
 #pragma endregion
 
 

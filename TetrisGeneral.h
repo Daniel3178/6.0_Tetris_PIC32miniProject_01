@@ -28,7 +28,7 @@ unsigned char alphabetA_Z[28][30];
 unsigned char digits0_9[10][30];
 unsigned char tetrisField[32][128];
 unsigned char OLED_DisplayBuffer[512];
-int score;
+int currentScore;
 
 
 typedef struct Tetromino
@@ -40,21 +40,26 @@ typedef struct Tetromino
 	unsigned char id;
 }Tetromino;
 
+typedef struct Player{
+	char name [3];
+	int score;
+	char positionBuffer [8];
+
+}Player;
+
 void rotateMaster(Tetromino inputTet, int rotationDirection);
 void quickTimer(int timeout);
 void user_isr();
-void fieldInitializer();
+void gameFieldInitializer();
 
 void renderGame();
  void enable_interrupts();
 void renderPixel(int xPos, int yPos, unsigned char state);
 void OledUpdate();
-//void updatePixel(unsigned char x, unsigned char y, unsigned char state);
 int getbtns(void);//return the state of btn 1 through 4 where the lsb represents state of btn 1
-// void *memcpy(void *, const void *, size_t);
 int DoesFit(Tetromino myAsset);
 void spawnNewTet();
-
+ void clearDisplay();
 void fetchToTetField();
 void uno32Initializer();
 void draw();
@@ -62,9 +67,12 @@ void play(int btn);
 int rand(void);
 int getButtonsPress();
 void printScore(int currentScore, int x, int y);
-void printChar(char myChar, int x, int y);
+void printCharacter(char myChar, int x, int y);
 void printString(char *myChar, int x, int y);
 void printTetromino(Tetromino tetToPrint, int xPos, int yPos);
+void playerRegister();
+void displayCurrentPlayer();
+void leaderBoardFieldInitializer();
 
 Tetromino tetCollection[7];
 Tetromino rotatedTetromino;

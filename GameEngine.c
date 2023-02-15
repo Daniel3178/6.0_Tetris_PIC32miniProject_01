@@ -9,10 +9,10 @@
 unsigned char tetrisField[32][128];
 unsigned char rotated9x9Matrix[9][9];
 unsigned char rotated12x12Matrix[12][12];
-int score = 0;
+int currentScore = 0;
 int level = 1;
 int isGameActive = FALSE;
-
+int spawnCurrentOnce = FALSE;
 
 #pragma region COLLISION &FETCH
 
@@ -57,16 +57,15 @@ void fetchToTetField()
 #pragma endregion
 
 #pragma region SPAWNER
-int spawnCurrentOnce = 1;
 void spawnNewTet()
 {
-	if(spawnCurrentOnce) {
+	if(!spawnCurrentOnce) {
 
 	currentTetromino = tetCollection[rand() % 7];
 	currentTetromino.x = 115;
 	currentTetromino.y = 7;
 	}
-	if(!spawnCurrentOnce) {
+	if(spawnCurrentOnce) {
 		currentTetromino = nextTetromino;
 	}
 	if(!DoesFit(currentTetromino)){
@@ -75,7 +74,7 @@ void spawnNewTet()
 	nextTetromino = tetCollection[rand() % 7];
 	nextTetromino.x = 115;
 	nextTetromino.y = 7;
-	spawnCurrentOnce = 0;
+	spawnCurrentOnce = TRUE;
 	
 }
 
@@ -225,23 +224,23 @@ void scoreCheck()
 			}
 		}
 	}
-	score += (counter/3)*100;
-	if(score < 100){
+	currentScore += (counter/3)*100;
+	if(currentScore < 100){
 		level = 1;
 		PORTECLR = 0;
 		PORTESET = 1;
 	}
-	if(score >=100){
+	if(currentScore >=100){
 		level = 2;
 		PORTECLR = 0;
 		PORTESET = 2;
 	}
-	if(score >= 200){
+	if(currentScore >= 200){
 		level = 3;
 		PORTECLR = 0;
 		PORTESET = 4;
 	}
-	if(score >= 300){
+	if(currentScore >= 300){
 		level = 4;
 		PORTECLR = 0;
 		PORTESET = 8;
@@ -267,7 +266,7 @@ void play(int btn)
 		{
 			tempTetromino.y -= 3;
 		}
-		// quickTimer(100);
+	
 		break;
 	case 4:
 		tempTetromino.y -= 3;
@@ -279,7 +278,7 @@ void play(int btn)
 		{
 			tempTetromino.y += 3;
 		}
-		// quickTimer(100);
+		
 
 		break;
 	case 8:
@@ -296,7 +295,7 @@ void play(int btn)
 			spawnNewTet();
 			tempTetromino.x += 3;
 		}
-		// quickTimer(100);
+		
 
 		break;
 	case 1:

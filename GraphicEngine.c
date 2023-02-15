@@ -40,17 +40,29 @@ void draw()
 	}
 }
 
-void printChar(char myChar, int x, int y)
+void printCharacter(char myChar, int x, int y)
 {
 	int index = myChar - 65;
 	int i;
 	int j;
+	if(index >= 0 && index < 28){
+
 	for (i = 0; i < 6; i++)
 	{
 		for (j = 0; j < 5; j++)
 		{
 			renderPixel(x - i, y + j, alphabetA_Z[index][5 * i + j]);
 		}
+	}
+	}
+	if(myChar == 32){
+		for (i = 0; i < 6; i++)
+	{
+		for (j = 0; j < 5; j++)
+		{
+			renderPixel(x - i, y + j, alphabetA_Z[27][5 * i + j]);
+		}
+	}
 	}
 }
 
@@ -76,7 +88,7 @@ void printString(char *str, int x, int y)
 	int j;
 	while (*str != 0)
 	{
-		printChar(*str, tempX, tempY);
+		printCharacter(*str, tempX, tempY);
 		if (*str == 32)
 		{
 			for (i = 0; i < 6; i++)
@@ -120,6 +132,12 @@ void printScore(int currentScore, int x, int y)
 		tempY += 6;
 	}
 }
+ void clearDisplay()
+ {
+   int i;
+   for(i = 0; i < 512; i++)
+     OLED_DisplayBuffer[i] = 0;
+ }
 
 void renderPixel(int xPos, int yPos, unsigned char state)
 {
