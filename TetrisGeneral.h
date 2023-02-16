@@ -22,7 +22,11 @@
 #define PLAY_ROTATE 0x1
 #define TRUE 1
 #define FALSE 0
+#define BIG_FONT 0
+#define LITTLE_FONT 1
 /*Tetrominoes & font declaration */
+unsigned char alphabet[28][15];
+unsigned char digits[10][15];
 
 unsigned char alphabetA_Z[28][30];
 unsigned char digits0_9[10][30];
@@ -66,13 +70,16 @@ void draw();
 void play(int btn);
 int rand(void);
 int getButtonsPress();
-void printScore(int currentScore, int x, int y);
-void printCharacter(char myChar, int x, int y);
-void printString(char *myChar, int x, int y);
+void printScore(int currentScore, int x, int y, unsigned char choseFont);
+void printCharacter(char myChar, int x, int y, unsigned char choseFont);
+void printString(char *myChar, int x, int y, unsigned char choseFont);
 void printTetromino(Tetromino tetToPrint, int xPos, int yPos);
 void playerRegister();
 void displayCurrentPlayer();
 void leaderBoardFieldInitializer();
+void displayLeaderBoard();
+void endGameRoutine();
+void runTheMenu();
 
 Tetromino tetCollection[7];
 Tetromino rotatedTetromino;

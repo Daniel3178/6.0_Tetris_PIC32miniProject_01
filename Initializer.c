@@ -2,7 +2,7 @@
 #include "TetrisGeneral.h"
 
 unsigned char OLED_DisplayBuffer[512];
-timeoutCount = 0;
+int timeoutCount = 0;
 
 #pragma region DISPLAY_INITIALIZER_STUFF
 
@@ -171,7 +171,7 @@ int getws(void) { //returns the state of swich 1 through 4 where the lsb represe
 int getbtns(void) { //return the state of btn 1 through 4 where the lsb represents state of btn 1
 	int result = ((PORTD & 0x000000e0) >> 4) | ((PORTF & 0x00000002) >> 1);
 	// delay(1);
-	quickTimer(500000);
+	quickTimer(250000);
 	return result;
 }
 
@@ -199,7 +199,6 @@ void timerInitializer() {
 void quickTimer(int timeout) {
 	int i;
 	for (i = 0; i < timeout; i++) {
-		i++;
 	}
 }
 #pragma endregion

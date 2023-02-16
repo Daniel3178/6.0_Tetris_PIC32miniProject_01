@@ -40,74 +40,159 @@ void draw()
 	}
 }
 
-void printCharacter(char myChar, int x, int y)
+void printCharacter(char myChar, int x, int y, unsigned char choseFont)
 {
 	int index = myChar - 65;
 	int i;
 	int j;
-	if(index >= 0 && index < 28){
-
-	for (i = 0; i < 6; i++)
+	if (index >= 0 && index <= 25)
 	{
-		for (j = 0; j < 5; j++)
+		switch (choseFont)
 		{
-			renderPixel(x - i, y + j, alphabetA_Z[index][5 * i + j]);
+		case BIG_FONT:
+			for (i = 0; i < 6; i++)
+			{
+				for (j = 0; j < 5; j++)
+				{
+					renderPixel(x - i, y + j, alphabetA_Z[index][5 * i + j]);
+				}
+			}
+			// if (myChar == 32)
+			// {
+			// 	for (i = 0; i < 6; i++)
+			// 	{
+			// 		for (j = 0; j < 5; j++)
+			// 		{
+			// 			renderPixel(x - i, y + j, alphabetA_Z[27][5 * i + j]);
+			// 		}
+			// 	}
+			// }
+			break;
+		case LITTLE_FONT:
+			for (i = 0; i < 5; i++)
+			{
+				for (j = 0; j < 3; j++)
+				{
+					renderPixel(x + j, y + i, alphabet[index][3 * i + j]);
+				}
+			}
+			// if (myChar == 32)
+			// {
+			// 	for (i = 0; i < 5; i++)
+			// 	{
+			// 		for (j = 0; j < 3; j++)
+			// 		{
+			// 			renderPixel(x + j, y + i, alphabet[27][3 * i + j]);
+			// 		}
+			// 	}
+			// }
+			break;
 		}
 	}
+	if(myChar == 26){
+		for (i = 0; i < 5; i++)
+			{
+				for (j = 0; j < 3; j++)
+				{
+					renderPixel(x + j, y + i, alphabet[26][3 * i + j]);
+				}
+			}
 	}
 	if(myChar == 32){
-		for (i = 0; i < 6; i++)
-	{
-		for (j = 0; j < 5; j++)
-		{
-			renderPixel(x - i, y + j, alphabetA_Z[27][5 * i + j]);
-		}
-	}
+				for (i = 0; i < 5; i++)
+			{
+				for (j = 0; j < 3; j++)
+				{
+					renderPixel(x + j, y + i, alphabet[27][3 * i + j]);
+				}
+			}
 	}
 }
 
-void printDigit(char myDigit, int x, int y)
+void printDigit(char myDigit, int x, int y, unsigned char choseFont)
 {
 	int index = myDigit - 48;
 	int i;
 	int j;
-	for (i = 0; i < 6; i++)
+	switch (choseFont)
 	{
-		for (j = 0; j < 5; j++)
+	case BIG_FONT:
+		for (i = 0; i < 6; i++)
 		{
-			renderPixel(x - i, y + j, digits0_9[index][5 * i + j]);
+			for (j = 0; j < 5; j++)
+			{
+				renderPixel(x - i, y + j, digits0_9[index][5 * i + j]);
+			}
 		}
+		break;
+
+	case LITTLE_FONT:
+		for (i = 0; i < 5; i++)
+		{
+			for (j = 0; j < 3; j++)
+			{
+				renderPixel(x + j, y + i, digits[index][3 * i + j]);
+			}
+		}
+		break;
 	}
 }
 
-void printString(char *str, int x, int y)
+void printString(char *str, int x, int y, unsigned char choseFont)
 {
 	int tempX = x;
 	int tempY = y;
 	int i;
 	int j;
-	while (*str != 0)
+	switch (choseFont)
 	{
-		printCharacter(*str, tempX, tempY);
-		if (*str == 32)
+	case BIG_FONT:
+
+		while (*str != 0)
 		{
-			for (i = 0; i < 6; i++)
+			printCharacter(*str, tempX, tempY, choseFont);
+			if (*str == 32)
 			{
-				for (j = 0; j < 5; j++)
+				for (i = 0; i < 6; i++)
 				{
-					renderPixel(x - i, y + j, digits0_9[27][5 * i + j]);
+					for (j = 0; j < 5; j++)
+					{
+						renderPixel(x - i, y + j, alphabetA_Z[27][5 * i + j]);
+					}
 				}
 			}
+			str++;
+			tempY += 6;
 		}
-		str++;
-		tempY += 6;
+		break;
+
+	case LITTLE_FONT:
+		while (*str != 0)
+		{
+
+			printCharacter(*str, tempX, tempY, choseFont);
+			if (*str == 32)
+			{
+				for (i = 0; i < 5; i++)
+				{
+					for (j = 0; j < 3; j++)
+					{
+						renderPixel(tempX + j, tempY + i, alphabet[27][3 * i + j]);
+					}
+				}
+			}
+			str++;
+			tempX += 4;
+		}
+		break;
 	}
 }
 
-void printScore(int currentScore, int x, int y)
+void printScore(int currentScore, int x, int y, unsigned char choseFont)
 {
 
 	int tempY = y;
+	int tempX = x;
 	int i;
 
 	int counter = 1;
@@ -126,18 +211,32 @@ void printScore(int currentScore, int x, int y)
 		tempNum2 /= 10;
 	}
 
-	for (i = counter - 1; i >= 0; i--)
+	switch (choseFont)
 	{
-		printDigit(numberArray[i], x, tempY);
-		tempY += 6;
+	case BIG_FONT:
+
+		for (i = counter - 1; i >= 0; i--)
+		{
+			printDigit(numberArray[i], tempX, tempY, choseFont);
+			tempY += 6;
+		}
+		break;
+
+	case LITTLE_FONT:
+		for (i = counter - 1; i >= 0; i--)
+		{
+			printDigit(numberArray[i], tempX, tempY, choseFont);
+			tempX += 4;
+		}
+		break;
 	}
 }
- void clearDisplay()
- {
-   int i;
-   for(i = 0; i < 512; i++)
-     OLED_DisplayBuffer[i] = 0;
- }
+void clearDisplay()
+{
+	int i;
+	for (i = 0; i < 512; i++)
+		OLED_DisplayBuffer[i] = 0;
+}
 
 void renderPixel(int xPos, int yPos, unsigned char state)
 {

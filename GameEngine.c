@@ -327,24 +327,6 @@ void play(int btn)
 
 #pragma region USEFUL_FUNCTIONS
 
-#pragma region LaborintOnVisualStudio
-// void printTheGame() {
-//  unsigned char i;
-//  unsigned char j;
-//  system("cls");
-//  for (i = 0; i < DISPLAY_HEIGHT; i++) {
-//	 for (j = 0; j < DISPLAY_WIDTH; j++) {
-//		 if (tetrisField[i][j] == 1) {
-//			 printf("1");
-//		 }
-//		 else if (tetrisField[i][j] == 0) {
-//			 printf("0");
-//		 }
-//	 }
-//	 printf("\n");
-//  }
-//}
-
 int rand(void)
 {
 	seed = (seed * 1103515245) + 12345;
