@@ -103,7 +103,7 @@ void endGameRoutine()
     delay(1000);
     printString("GAME", 90, 5, BIG_FONT);
     printString("OVER", 80, 5, BIG_FONT);
-    delay(5000);
+    delay(10000);
     clearDisplay();
     playerRegister();
     displayCurrentPlayer();
