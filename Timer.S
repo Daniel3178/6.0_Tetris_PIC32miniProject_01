@@ -24,22 +24,24 @@ enable_interrupts:
 
 delay: 
     move $t0, $a0   # t0 = arg
-    li $t1, 0x00    # i = 0;
-    lui $t2, 0x1b   # length = 0x1b7740
-    ori $t2, $t2, 0x7740
+    li $t1, 0    # i = 0;
+    lui $t2, 0x0043   # length = 0x1b7740
+    ori $t2, $t2, 0x0000
     j while
     nop
 
     while:
-        slti $t3, $t0, 0x00     #set true if i < 0;
+        slti $t3, $t0, 0     #set true if i < 0;
         bne $t3, $0, breakLoop  #if true, break
         nop
-        sub $t0, $t1, 0x1
+        addi $t0, $t0, -1
+        j for
+        nop
     
         for:
             beq $t1, $t2, end   #if i == length, end
             nop
-            addi $t1, $t1, 0x1
+            addi $t1, $t1, 1
             j for
             nop
         end:

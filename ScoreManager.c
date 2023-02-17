@@ -1,5 +1,5 @@
 #include "TetrisGeneral.h"
-
+#include "pic32max.h"
 // Player currentPlayer;
 
 Player topPlayer[4] = {
@@ -18,16 +18,13 @@ void playerRegister()
     char secondLetter = 'A';
     while (!(getbtns() & 0x8))
     {
-
         if ((getbtns() & 0x4) && firstLetter <= 'Z')
         {
-
-            printCharacter(++firstLetter, 50, 13, BIG_FONT);
+            printCharacter(++firstLetter, 50, 10, BIG_FONT);
         }
         if ((getbtns() & 0x2) && firstLetter > 'A')
         {
-
-            printCharacter(--firstLetter, 50, 13, BIG_FONT);
+            printCharacter(--firstLetter, 50, 10, BIG_FONT);
         }
     }
     delay(2);
@@ -36,13 +33,11 @@ void playerRegister()
 
         if ((getbtns() & 0x4) && secondLetter <= 'Z')
         {
-
-            printCharacter(++secondLetter, 50, 19, BIG_FONT);
+            printCharacter(++secondLetter, 50, 16, BIG_FONT);
         }
         if ((getbtns() & 0x2) && secondLetter > 'A')
         {
-
-            printCharacter(--secondLetter, 50, 19, BIG_FONT);
+            printCharacter(--secondLetter, 50, 16, BIG_FONT);
         }
     }
     delay(2);
@@ -94,26 +89,29 @@ void updateLeaderBoard()
 
 void displayCurrentPlayer()
 {
+    clearDisplay();
     printString("ID", 90, 4, BIG_FONT);
-    printString(&topPlayer[3].name[0], 110, 4, BIG_FONT);
-    printString("SCORE", 40, 4, BIG_FONT);
-    printScore(topPlayer[3].score, 100, 4, BIG_FONT);
-    delay(20);
+    printString(&topPlayer[3].name[0], 80, 4, BIG_FONT);
+    printString("SCORE", 60, 4, BIG_FONT);
+    printScore(topPlayer[3].score, 50, 4, BIG_FONT);
+    quickTimer(20000000);
 }
 
 void endGameRoutine()
 {
     clearDisplay();
-    delay(2);
+    delay(1000);
     printString("GAME", 90, 5, BIG_FONT);
     printString("OVER", 80, 5, BIG_FONT);
-    delay(10);
+    delay(5000);
     clearDisplay();
     playerRegister();
-    updateLeaderBoard();
     displayCurrentPlayer();
-    delay(10);
+    updateLeaderBoard();
+    delay(5000);
     clearDisplay();
+    level =1;
+    PORTECLR = 0xff;
 }
 
 void leaderBoardFieldInitializer()

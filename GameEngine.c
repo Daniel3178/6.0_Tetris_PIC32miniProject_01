@@ -9,10 +9,10 @@
 unsigned char tetrisField[32][128];
 unsigned char rotated9x9Matrix[9][9];
 unsigned char rotated12x12Matrix[12][12];
+unsigned char isGameActive = FALSE;
+unsigned char spawnCurrentOnce = FALSE;
+unsigned char level = 1;
 int currentScore = 0;
-int level = 1;
-int isGameActive = FALSE;
-int spawnCurrentOnce = FALSE;
 
 #pragma region COLLISION &FETCH
 
@@ -227,23 +227,28 @@ void scoreCheck()
 	currentScore += (counter/3)*100;
 	if(currentScore < 100){
 		level = 1;
-		PORTECLR = 0;
+		// PORTECLR = 0xff;
 		PORTESET = 1;
 	}
 	if(currentScore >=100){
 		level = 2;
-		PORTECLR = 0;
+		// PORTECLR = 0xff;
 		PORTESET = 2;
 	}
 	if(currentScore >= 200){
 		level = 3;
-		PORTECLR = 0;
+		// PORTECLR = 0xff;
 		PORTESET = 4;
 	}
 	if(currentScore >= 300){
 		level = 4;
-		PORTECLR = 0;
+		// PORTECLR = 0xff;
 		PORTESET = 8;
+	}
+	if(currentScore >= 400){
+		level = 5;
+		// PORTECLR = 0xff;
+		PORTESET = 16;
 	}
 }
 
@@ -282,23 +287,19 @@ void play(int btn)
 
 		break;
 	case 8:
-		quickTimer(100000);
-		tempTetromino.x -= 3;
-		if (DoesFit(tempTetromino))
-		{
-			currentTetromino.x -= 3;
-		}
-		else
-		{
-			fetchToTetField();
-			scoreCheck();
-			spawnNewTet();
-			tempTetromino.x += 3;
-		}
-		
-
-		break;
-	case 1:
+		// quickTimer(100000);
+		// tempTetromino.x -= 3;
+		// if (DoesFit(tempTetromino))
+		// {
+		// 	currentTetromino.x -= 3;
+		// }
+		// else
+		// {
+		// 	fetchToTetField();
+		// 	scoreCheck();
+		// 	spawnNewTet();
+		// 	tempTetromino.x += 3;
+		// }
 		rotateMaster(tempTetromino, CLOCKWISE_ROTATION);
 		if (DoesFit(rotatedTetromino))
 		{
@@ -308,6 +309,20 @@ void play(int btn)
 		{
 			rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
 		}
+
+		break;
+	case 1:
+		isGameActive = FALSE;
+
+		// rotateMaster(tempTetromino, CLOCKWISE_ROTATION);
+		// if (DoesFit(rotatedTetromino))
+		// {
+		// 	currentTetromino.matrix = rotatedTetromino.matrix;
+		// }
+		// else
+		// {
+		// 	rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
+		// }
 	}
 	// tempTetromino.x -= 3;
 	// if (DoesFit(tempTetromino))
@@ -334,14 +349,4 @@ int rand(void)
 }
 #pragma endregion
 
-// check if it fits before roatiting the matrix // (ref: collision&stuff)
-/*The following functions need to be implemented
-1. collision detector // (ref: cllision&stuff)
-2. graphic renderer // (ref: graphicEngin)
-3. row eliminator i.e when a row completes it should remove
-the blocks and pull the above row down // (ref: score_mechanism)
-4. Display initializer // (ref: uno32initializer)
-5. IOSystem // (ref: uno32initializer)
-6. random shape generator // (ref: spawner)
-7. Extra work on gameplay machanism
-*/
+
