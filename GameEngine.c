@@ -23,11 +23,6 @@ int DoesFit(Tetromino inputTet)
 			{
 				return 0;
 			}
-			// else if ((inputTet.x + j < 0 || inputTet.x + j >= 32 || inputTet.y + i >= 128)) {
-			// 	if (*(inputTet.matrix + i * inputTet.width) + j) {
-			// 		return 0;
-			// 	}
-			// }
 		}
 	}
 	return 1;
@@ -90,7 +85,6 @@ void Rotate9x9matrix(unsigned char *aMatrixToRotate, int aDirection)
 		{
 			for (j = 8; j >= 0; j--)
 			{
-				// Why not fill the global array directly???
 				tempArray[j][i] = *aMatrixToRotate++;
 			}
 		}
