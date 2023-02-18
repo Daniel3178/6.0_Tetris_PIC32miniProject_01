@@ -1,88 +1,98 @@
 #include "TetrisGeneral.h"
 
-void runTheGame()
+#pragma region RUN_GAME/LEADERBOARD
+
+void RunTheGame()
 {
 
-    clearDisplay();
-    gameFieldInitializer();
-    spawnNewTet();
-    printString("SCORE", 34, 2, BIG_FONT);
+    ClearDisplay();
+    InitializeTetrisField();
+    SpawnNewTet();
+    PrintString("SCORE", 34, 2, BIG_FONT);
     isGameActive = TRUE;
     while (isGameActive)
     {
-        draw();
-        play(getbtns());
-        printTetromino(nextTetromino, 5, 9);
-        printScore(currentScore, 25, 5, BIG_FONT);
+        DrawTheGame();
+        Play(GetButtons());
+        PrintTetromino(nextTetromino, 5, 9);
+        PrintNumber(currentScore, 25, 5, BIG_FONT);
     }
-    endGameRoutine();
+    EndGameRoutine();
 }
 
-void runTheLeaderBoard()
+void RunTheLeaderBoard()
 {
-    displayLeaderBoard();
-    while (!(getbtns() & 0x1))
+    DisplayLeaderBoard();
+    while (!(GetButtons() & 0x1))
     {
     }
-    clearDisplay();
+    ClearDisplay();
 }
 
-unsigned char getUserOptions()
+#pragma endregion
+
+#pragma region USEFUL_FUNCTIONS
+
+unsigned char GetUserOption()
 {
-    int x = 40;
-    int y = 13;
-    printString("TETRIS MENU", 44, 4, LITTLE_FONT);
-    printString("PLAY", 48, 13, LITTLE_FONT);
-    printString("HIGHEST SCORE", 48, 21, LITTLE_FONT);
+    int tempX = 40;
+    int tempY = 13;
+    PrintString("TETRIS MENU", 44, 4, LITTLE_FONT);
+    PrintString("PLAY", 48, 13, LITTLE_FONT);
+    PrintString("HIGHEST SCORE", 48, 21, LITTLE_FONT);
     // printCharacter(26, 44, 4, LITTLE_FONT);
-    while (!(getbtns() & 0x8))
+    while (!(GetButtons() & 0x8))
     {
-        switch (getbtns())
+        switch (GetButtons())
         {
         case 2:
-            x = 40;
-            y = 13;
+            tempX = 40;
+            tempY = 13;
             break;
 
         case 4:
-            x = 40;
-            y = 21;
+            tempX = 40;
+            tempY = 21;
             break;
         }
-        printCharacter(32, 40, 13, LITTLE_FONT);
-        printCharacter(32, 40, 21, LITTLE_FONT);
-        printCharacter(26, x, y, LITTLE_FONT);
+        PrintCharacter(32, 40, 13, LITTLE_FONT);
+        PrintCharacter(32, 40, 21, LITTLE_FONT);
+        PrintCharacter(26, tempX, tempY, LITTLE_FONT);
     }
 
-    if (y == 13)
+    if (tempY == 13)
     {
         return 1;
     }
-    if (y == 21)
+    if (tempY == 21)
     {
         return 2;
     }
 }
-void developersIntro(){
-    clearDisplay();
-    printString("DEVELOPED BY", 44, 7, LITTLE_FONT);
-    printString("NAVEED AND DANIEL", 35, 17, LITTLE_FONT);
-    quickTimer(10000000);
-    clearDisplay(); 
+
+void DisplayDevelopersName(){
+    ClearDisplay();
+    PrintString("DEVELOPED BY", 44, 7, LITTLE_FONT);
+    PrintString("NAVEED AND DANIEL", 35, 17, LITTLE_FONT);
+    QuickTimer(10000000);
+    ClearDisplay(); 
 }
-void runTheMenu()
+
+#pragma endregion
+
+void RunTetris()
 {
-    uno32Initializer();
-    developersIntro();
+    InitializeUNO32();
+    DisplayDevelopersName();
     while (1)
     {
-        switch (getUserOptions())
+        switch (GetUserOption())
         {
         case 1:
-            runTheGame();
+            RunTheGame();
             break;
         case 2:
-            runTheLeaderBoard();
+            RunTheLeaderBoard();
             break;
         }
     }

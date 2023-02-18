@@ -1,6 +1,5 @@
 #include "TetrisGeneral.h"
 #include "pic32max.h"
-// Player currentPlayer;
 
 Player topPlayer[4] = {
     {"", 0, "FIRST"},
@@ -9,35 +8,36 @@ Player topPlayer[4] = {
     {"", 0, "CURRENT"},
 };
 
-void playerRegister()
+#pragma region ENDGAME_STUFF
+void RegisterPlayer()
 {
 
-    clearDisplay();
-    printString("NAME", 60, 4, BIG_FONT);
-    char firstLetter = 'A';
-    char secondLetter = 'A';
-    while (!(getbtns() & 0x8))
+    ClearDisplay();
+    PrintString("NAME", 60, 4, BIG_FONT);
+    char firstLetter = '@';
+    char secondLetter = '@';
+    while (!(GetButtons() & 0x8))
     {
-        if ((getbtns() & 0x4) && firstLetter <= 'Z')
+        if ((GetButtons() & 0x4) && firstLetter <= 'Z')
         {
-            printCharacter(++firstLetter, 50, 10, BIG_FONT);
+            PrintCharacter(++firstLetter, 50, 10, BIG_FONT);
         }
-        if ((getbtns() & 0x2) && firstLetter > 'A')
+        if ((GetButtons() & 0x2) && firstLetter > 'A')
         {
-            printCharacter(--firstLetter, 50, 10, BIG_FONT);
+            PrintCharacter(--firstLetter, 50, 10, BIG_FONT);
         }
     }
     delay(2);
-    while (!(getbtns() & 0x8))
+    while (!(GetButtons() & 0x8))
     {
 
-        if ((getbtns() & 0x4) && secondLetter <= 'Z')
+        if ((GetButtons() & 0x4) && secondLetter <= 'Z')
         {
-            printCharacter(++secondLetter, 50, 16, BIG_FONT);
+            PrintCharacter(++secondLetter, 50, 16, BIG_FONT);
         }
-        if ((getbtns() & 0x2) && secondLetter > 'A')
+        if ((GetButtons() & 0x2) && secondLetter > 'A')
         {
-            printCharacter(--secondLetter, 50, 16, BIG_FONT);
+            PrintCharacter(--secondLetter, 50, 16, BIG_FONT);
         }
     }
     delay(2);
@@ -49,7 +49,7 @@ void playerRegister()
     currentScore = 0;
 }
 
-void updateLeaderBoard()
+void UpdateLeaderBoard()
 {
     int i;
     int j;
@@ -87,38 +87,40 @@ void updateLeaderBoard()
     }
 }
 
-void displayCurrentPlayer()
+void DisplayCurrentPlayer()
 {
-    clearDisplay();
-    printString("ID", 90, 4, BIG_FONT);
-    printString(&topPlayer[3].name[0], 80, 4, BIG_FONT);
-    printString("SCORE", 60, 4, BIG_FONT);
-    printScore(topPlayer[3].score, 50, 4, BIG_FONT);
-    quickTimer(20000000);
+    ClearDisplay();
+    PrintString("ID", 90, 4, BIG_FONT);
+    PrintString(&topPlayer[3].name[0], 80, 4, BIG_FONT);
+    PrintString("SCORE", 60, 4, BIG_FONT);
+    PrintNumber(topPlayer[3].score, 50, 4, BIG_FONT);
+    QuickTimer(20000000);
 }
 
-void endGameRoutine()
+void EndGameRoutine()
 {
-    clearDisplay();
+    ClearDisplay();
     delay(1000);
-    printString("GAME", 90, 5, BIG_FONT);
-    printString("OVER", 80, 5, BIG_FONT);
+    PrintString("GAME", 90, 5, BIG_FONT);
+    PrintString("OVER", 80, 5, BIG_FONT);
     delay(10000);
-    clearDisplay();
-    playerRegister();
-    displayCurrentPlayer();
-    updateLeaderBoard();
+    ClearDisplay();
+    RegisterPlayer();
+    DisplayCurrentPlayer();
+    UpdateLeaderBoard();
     delay(5000);
-    clearDisplay();
+    ClearDisplay();
     level =1;
     PORTECLR = 0xff;
 }
+#pragma endregion
 
-void leaderBoardFieldInitializer()
+#pragma region LEADERBOARD
+void InitializeLeaderBoardField()
 {
     unsigned char i = 0;
     unsigned char j = 0;
-    clearDisplay();
+    ClearDisplay();
 
     for (i = 0; i < 32; i++)
     {
@@ -126,39 +128,40 @@ void leaderBoardFieldInitializer()
         {
             if (i == 0 || i == 31 || i == 9 || j == 42 || j == 0 || j == 127)
             {
-                renderPixel(j, i, 1);
+                RenderPixel(j, i, 1);
             }
             else
             {
-                renderPixel(j, i, 0);
+                RenderPixel(j, i, 0);
             }
         }
     }
 }
 
-void displayLeaderBoard()
+void DisplayLeaderBoard()
 {
-    leaderBoardFieldInitializer();
-    printString("PLAYER ID", 3, 2, LITTLE_FONT);
-    printString("RANK", 64, 2, LITTLE_FONT);
-    printString("SCORE", 99, 2, LITTLE_FONT);
+    InitializeLeaderBoardField();
+    PrintString("PLAYER ID", 3, 2, LITTLE_FONT);
+    PrintString("RANK", 64, 2, LITTLE_FONT);
+    PrintString("SCORE", 99, 2, LITTLE_FONT);
 
     if (topPlayer[0].name[0] != 0 && topPlayer[0].score > 0)
     {
-        printString(&topPlayer[0].name[0], 19, 11, LITTLE_FONT);
-        printString(&topPlayer[0].positionBuffer[0], 64, 11, LITTLE_FONT);
-        printScore(topPlayer[0].score, 99, 11, LITTLE_FONT);
+        PrintString(&topPlayer[0].name[0], 19, 11, LITTLE_FONT);
+        PrintString(&topPlayer[0].positionBuffer[0], 64, 11, LITTLE_FONT);
+        PrintNumber(topPlayer[0].score, 99, 11, LITTLE_FONT);
     }
     if (topPlayer[1].name[0] != 0 && topPlayer[1].score > 0)
     {
-        printString(&topPlayer[1].name[0], 19, 18, LITTLE_FONT);
-        printString(&topPlayer[1].positionBuffer[0], 64, 18, LITTLE_FONT);
-        printScore(topPlayer[1].score, 99, 18, LITTLE_FONT);
+        PrintString(&topPlayer[1].name[0], 19, 18, LITTLE_FONT);
+        PrintString(&topPlayer[1].positionBuffer[0], 64, 18, LITTLE_FONT);
+        PrintNumber(topPlayer[1].score, 99, 18, LITTLE_FONT);
     }
     if (topPlayer[2].name[0] != 0 && topPlayer[2].score > 0)
     {
-        printString(&topPlayer[2].name[0], 19, 25, LITTLE_FONT);
-        printString(&topPlayer[2].positionBuffer[0], 64, 25, LITTLE_FONT);
-        printScore(topPlayer[2].score, 99, 25, LITTLE_FONT);
+        PrintString(&topPlayer[2].name[0], 19, 25, LITTLE_FONT);
+        PrintString(&topPlayer[2].positionBuffer[0], 64, 25, LITTLE_FONT);
+        PrintNumber(topPlayer[2].score, 99, 25, LITTLE_FONT);
     }
 }
+#pragma endregion

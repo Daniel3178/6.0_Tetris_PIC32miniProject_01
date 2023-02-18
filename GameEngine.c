@@ -1,9 +1,4 @@
-
-#include <stdint.h>
-#include <stdio.h>
 #include "TetrisGeneral.h"
-// #include <time.h>
-#include <stdlib.h>
 #include "pic32max.h"
 
 unsigned char tetrisField[32][128];
@@ -38,7 +33,7 @@ int DoesFit(Tetromino inputTet)
 	return 1;
 }
 
-void fetchToTetField()
+void WriteToTetrisField()
 {
 	int i;
 	int j;
@@ -57,37 +52,38 @@ void fetchToTetField()
 #pragma endregion
 
 #pragma region SPAWNER
-void spawnNewTet()
+void SpawnNewTet()
 {
-	if(!spawnCurrentOnce) {
-
-	currentTetromino = tetCollection[rand() % 7];
-	currentTetromino.x = 115;
-	currentTetromino.y = 7;
+	if (!spawnCurrentOnce)
+	{
+		currentTetromino = tetCollection[Rand() % 7];
+		currentTetromino.x = 115;
+		currentTetromino.y = 7;
 	}
-	if(spawnCurrentOnce) {
+	if (spawnCurrentOnce)
+	{
 		currentTetromino = nextTetromino;
 	}
-	if(!DoesFit(currentTetromino)){
+	if (!DoesFit(currentTetromino))
+	{
 		isGameActive = FALSE;
 	}
-	nextTetromino = tetCollection[rand() % 7];
+	nextTetromino = tetCollection[Rand() % 7];
 	nextTetromino.x = 115;
 	nextTetromino.y = 7;
 	spawnCurrentOnce = TRUE;
-	
 }
 
 #pragma endregion
 
 #pragma region ROTATION
-void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
+void Rotate9x9matrix(unsigned char *aMatrixToRotate, int aDirection)
 {
 	int i;
 	int j;
 
 	unsigned char tempArray[9][9];
-	if (rotationDirection)
+	if (aDirection)
 	{ // COUNTERCLOCKWISE ROTATION
 
 		for (i = 0; i < 9; i++)
@@ -95,7 +91,7 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 			for (j = 8; j >= 0; j--)
 			{
 				// Why not fill the global array directly???
-				tempArray[j][i] = *matrixToRotateP++;
+				tempArray[j][i] = *aMatrixToRotate++;
 			}
 		}
 	}
@@ -107,7 +103,7 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 		{
 			for (j = 0; j < 9; j++)
 			{
-				tempArray[j][i] = *matrixToRotateP++;
+				tempArray[j][i] = *aMatrixToRotate++;
 			}
 		}
 	}
@@ -122,19 +118,19 @@ void rotate9x9matrix(unsigned char *matrixToRotateP, int rotationDirection)
 	rotatedTetromino.matrix = &rotated9x9Matrix[0][0];
 }
 
-void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
+void Rotate12x12matrix(unsigned char *aMatrixToRotate, int aDirection)
 {
 	int i;
 	int j;
 	unsigned char tempArray[12][12];
 
-	if (rotationDirection)
+	if (aDirection)
 	{ // COUNTERCLOCKWISE ROTATION
-		for (i = 0; i < 12; i++)		
-		{ //Why not fill the global array directly????
+		for (i = 0; i < 12; i++)
+		{
 			for (j = 11; j >= 0; j--)
 			{
-				tempArray[j][i] = *matrixToRotateP++;
+				tempArray[j][i] = *aMatrixToRotate++;
 			}
 		}
 	}
@@ -146,11 +142,11 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 		{
 			for (j = 0; j < 12; j++)
 			{
-				tempArray[j][i] = *matrixToRotateP++;
+				tempArray[j][i] = *aMatrixToRotate++;
 			}
 		}
 	}
-	//Why not fill the global array directly????
+
 	for (i = 0; i < 12; i++)
 	{
 		for (j = 0; j < 12; j++)
@@ -162,25 +158,25 @@ void rotate12x12matrix(unsigned char *matrixToRotateP, int rotationDirection)
 	rotatedTetromino.matrix = &rotated12x12Matrix[0][0];
 }
 
-void rotateMaster(Tetromino inputTet, int rotationDirection)
+void RotateMatrix(Tetromino myTetromino, int aDirection)
 {
-	rotatedTetromino.id = inputTet.id;
-	rotatedTetromino.width = inputTet.width;
-	rotatedTetromino.x = inputTet.x;
-	rotatedTetromino.y = inputTet.y;
+	rotatedTetromino.id = myTetromino.id;
+	rotatedTetromino.width = myTetromino.width;
+	rotatedTetromino.x = myTetromino.x;
+	rotatedTetromino.y = myTetromino.y;
 
-	switch (inputTet.id)
+	switch (myTetromino.id)
 	{
 	case TET_ID_6X6:
 
 		break;
 	case TET_ID_9X9:
 
-		rotate9x9matrix(inputTet.matrix, rotationDirection);
+		Rotate9x9matrix(myTetromino.matrix, aDirection);
 		break;
 	case TET_ID_12X12:
 
-		rotate12x12matrix(inputTet.matrix, rotationDirection);
+		Rotate12x12matrix(myTetromino.matrix, aDirection);
 		break;
 	}
 }
@@ -189,26 +185,26 @@ void rotateMaster(Tetromino inputTet, int rotationDirection)
 
 #pragma region SCORE_MECHANISM
 
-void scoreCheck()
+void CheckScore()
 {
 	int i;
 	int j;
-	int sum;
-	int counter = 0;
+	int tempSum;
+	int tempCounter = 0;
 
 	for (i = DISPLAY_WIDTH - 1; i >= 37; i--)
 	{
-		sum = 0;
+		tempSum = 0;
 		for (j = 1; j < DISPLAY_HEIGHT - 1; j++)
 		{
 			if (tetrisField[j][i])
 			{
-				sum++;
+				tempSum++;
 			}
 		}
-		if (sum == DISPLAY_HEIGHT - 2)
+		if (tempSum == DISPLAY_HEIGHT - 2)
 		{
-			counter++;
+			tempCounter++;
 			int k;
 			int m;
 			for (k = i; k < DISPLAY_WIDTH - 1; k++)
@@ -224,30 +220,30 @@ void scoreCheck()
 			}
 		}
 	}
-	currentScore += (counter/3)*100;
-	if(currentScore < 100){
+	currentScore += (tempCounter / 3) * 100;
+	if (currentScore <= 0)
+	{
 		level = 1;
-		// PORTECLR = 0xff;
 		PORTESET = 1;
 	}
-	if(currentScore >=100){
+	if (currentScore >= 100)
+	{
 		level = 2;
-		// PORTECLR = 0xff;
 		PORTESET = 2;
 	}
-	if(currentScore >= 200){
+	if (currentScore >= 500)
+	{
 		level = 3;
-		// PORTECLR = 0xff;
 		PORTESET = 4;
 	}
-	if(currentScore >= 300){
+	if (currentScore >= 1000)
+	{
 		level = 4;
-		// PORTECLR = 0xff;
 		PORTESET = 8;
 	}
-	if(currentScore >= 400){
+	if (currentScore >= 2000)
+	{
 		level = 5;
-		// PORTECLR = 0xff;
 		PORTESET = 16;
 	}
 }
@@ -255,13 +251,13 @@ void scoreCheck()
 #pragma endregion
 
 #pragma region GAMEPLAY
-void play(int btn)
+void Play(int aButton)
 {
-	int temp = btn;
+	int temp = aButton;
 	tempTetromino = currentTetromino;
 	switch (temp)
 	{
-	case 2:
+	case PLAY_RIGHT:
 		tempTetromino.y += 3;
 		if (DoesFit(tempTetromino))
 		{
@@ -271,9 +267,9 @@ void play(int btn)
 		{
 			tempTetromino.y -= 3;
 		}
-	
+
 		break;
-	case 4:
+	case PLAY_LEFT:
 		tempTetromino.y -= 3;
 		if (DoesFit(tempTetromino))
 		{
@@ -283,70 +279,33 @@ void play(int btn)
 		{
 			tempTetromino.y += 3;
 		}
-		
 
 		break;
-	case 8:
-		// quickTimer(100000);
-		// tempTetromino.x -= 3;
-		// if (DoesFit(tempTetromino))
-		// {
-		// 	currentTetromino.x -= 3;
-		// }
-		// else
-		// {
-		// 	fetchToTetField();
-		// 	scoreCheck();
-		// 	spawnNewTet();
-		// 	tempTetromino.x += 3;
-		// }
-		rotateMaster(tempTetromino, CLOCKWISE_ROTATION);
+	case PLAY_ROTATE:
+		RotateMatrix(tempTetromino, CLOCKWISE_ROTATION);
 		if (DoesFit(rotatedTetromino))
 		{
 			currentTetromino.matrix = rotatedTetromino.matrix;
 		}
 		else
 		{
-			rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
+			RotateMatrix(tempTetromino, COUNTERCLOCKWISE_ROTAION);
 		}
 
 		break;
-	case 1:
+	case PLAY_EXIT:
 		isGameActive = FALSE;
 
-		// rotateMaster(tempTetromino, CLOCKWISE_ROTATION);
-		// if (DoesFit(rotatedTetromino))
-		// {
-		// 	currentTetromino.matrix = rotatedTetromino.matrix;
-		// }
-		// else
-		// {
-		// 	rotateMaster(tempTetromino, COUNTERCLOCKWISE_ROTAION);
-		// }
+		break;
 	}
-	// tempTetromino.x -= 3;
-	// if (DoesFit(tempTetromino))
-	// {
-	// 	currentTetromino.x -= 3;
-	// 	delay(2);
-	// }
-	// else
-	// {
-	// 	fetchToTetField();
-	// 	scoreCheck();
-	// 	spawnNewTet();
-	// 	tempTetromino.x += 3;
-	// }
 }
 #pragma endregion
 
 #pragma region USEFUL_FUNCTIONS
 
-int rand(void)
+int Rand(void)
 {
 	seed = (seed * 1103515245) + 12345;
 	return ((seed >> 16) & 0x7fff);
 }
 #pragma endregion
-
-

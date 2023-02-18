@@ -84,9 +84,9 @@ void OledDspInit()
 	Copyright Digilent, Inc. All rights reserved.
 	Other product and company names mentioned may be trademarks of their respective owners. Page 11 of 13
 	*/
-	quickTimer(10);
+	QuickTimer(10);
 	PORTFCLR = 0x40; // 0 = on 
-	quickTimer(1000000);
+	QuickTimer(1000000);
 	//1ms delay
 	/* Display off command
 	*/
@@ -94,12 +94,12 @@ void OledDspInit()
 	/* Bring Reset low and then high
 	*/
 	PORTGCLR = 0x200;
-	quickTimer(10);
+	QuickTimer(10);
 	//1ms delay
 	PORTGSET = 0x200;
 	/* Send the Set Charge Pump and Set Pre-Charge Period commands
 	*/
-	quickTimer(10);
+	QuickTimer(10);
 
 	Spi2PutByte(0x8D);
 	Spi2PutByte(0x14);
@@ -108,7 +108,7 @@ void OledDspInit()
 	/* Turn on VCC and wait 100ms
 	*/
 	PORTFCLR = 0X20; //RF6 = VDD
-	quickTimer(10000000);
+	QuickTimer(10000000);
 	//100 ms delay
 	/* Send the commands to invert the display. This puts the display origin
 	** in the upper left corner.
@@ -155,7 +155,7 @@ void OledUpdate()
 
 #pragma region IO_INITIALIZER_STUFF
 
-void ioInitializer() {
+void InitializeIO() {
 	TRISECLR = 0xff; // the led lamps 0 - 7
 	PORTECLR = 0x000000ff;
 	PORTE = 0;
@@ -163,15 +163,15 @@ void ioInitializer() {
 	TRISFSET = 0x2; //btn 1 
 }
 
-int getws(void) { //returns the state of swich 1 through 4 where the lsb represents state of switch 1
+int GetSwitches(void) { //returns the state of swich 1 through 4 where the lsb represents state of switch 1
 	int result = ((((PORTD >> 8) & 0X8) | ((PORTD >> 8) & 0x4) | ((PORTD >> 8) & 0x2) | ((PORTD >> 8) & 0X1)) & 0Xf);
 	return result;
 }
 
-int getbtns(void) { //return the state of btn 1 through 4 where the lsb represents state of btn 1
+int GetButtons(void) { //return the state of btn 1 through 4 where the lsb represents state of btn 1
 	int result = ((PORTD & 0x000000e0) >> 4) | ((PORTF & 0x00000002) >> 1);
 	// delay(1);
-	quickTimer(250000);
+	QuickTimer(250000);
 	return result;
 }
 
@@ -179,7 +179,7 @@ int getbtns(void) { //return the state of btn 1 through 4 where the lsb represen
 #pragma endregion
 
 #pragma region TIMER_INITIALIZER_STUFF
-void timerInitializer() {
+void InitializeTimer() {
 	//Initialize Timer2
 	T2CONSET = 0x70; //0111 0000, Sets prescale to 1:256
 	IFSCLR(0) = 0x100;//0001 0000 0000
@@ -196,7 +196,7 @@ void timerInitializer() {
 	IECSET(0) = 0x100;
 }
 
-void quickTimer(int timeout) {
+void QuickTimer(int timeout) {
 	int i;
 	for (i = 0; i < timeout; i++) {
 	}
@@ -205,15 +205,15 @@ void quickTimer(int timeout) {
 
 #pragma region UNO32_INITIALIZER
 
-void uno32Initializer() {
+void InitializeUNO32() {
 
-	ioInitializer();
+	InitializeIO();
 	// display settings
-	seed =getws();
+	seed =GetSwitches();
 	OledHostInit();
 	OledDspInit();
 
-	timerInitializer();
+	InitializeTimer();
 
 }
 
@@ -237,9 +237,9 @@ void user_isr() {
 	}
 	else
 	{
-		fetchToTetField();
-		scoreCheck();
-		spawnNewTet();
+		WriteToTetrisField();
+		CheckScore();
+		SpawnNewTet();
 		tempTetromino.x += 3;
 	}
     timeoutCount = 0;
@@ -252,7 +252,7 @@ void user_isr() {
 
 #pragma region FIELD_INITIALIZER
 
-void gameFieldInitializer() {
+void InitializeTetrisField() {
 	unsigned char i = 0;
 	unsigned char j = 0;
 

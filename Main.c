@@ -1,10 +1,7 @@
 #include "TetrisGeneral.h"
-// #include "pic32max.h"
-
-void *stdout = (void *)0;
 
 int main()
 {
-	runTheMenu();
+	RunTetris();
 	return 0;
 }
