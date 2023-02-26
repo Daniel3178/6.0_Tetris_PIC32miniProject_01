@@ -40,7 +40,6 @@ unsigned char GetUserOption()
     PrintString("TETRIS MENU", 44, 4, LITTLE_FONT);
     PrintString("PLAY", 48, 13, LITTLE_FONT);
     PrintString("HIGHEST SCORE", 48, 21, LITTLE_FONT);
-    // printCharacter(26, 44, 4, LITTLE_FONT);
     while (!(GetButtons() & 0x8))
     {
         switch (GetButtons())
@@ -59,7 +58,7 @@ unsigned char GetUserOption()
         PrintCharacter(32, 40, 21, LITTLE_FONT);
         PrintCharacter(26, tempX, tempY, LITTLE_FONT);
     }
-
+    /*According to the last x and y coordinate of the select box return the option*/
     if (tempY == 13)
     {
         return 1;

@@ -1,6 +1,12 @@
 #include "pic32max.h"
 #include "TetrisGeneral.h"
 
+/*This section of the program is dedicated for hardware 
+initialization and is highly inspired by the example code 
+that can be found in "chipKIT Basic I/O Shield Reference Manual"
+page 9/13. The addresses of the ports which are mentioned in 
+the example code can be found in PIC32 family data sheet */
+
 unsigned char OLED_DisplayBuffer[512];
 int timeoutCount = 0;
 
@@ -10,19 +16,12 @@ void OledPutBuffer(int cb, unsigned char* rgbTx)
 {
 	int ib;
 	unsigned char bTmp;
-	/* Write/Read the data
-	*/
 	for (ib = 0; ib < cb; ib++) {
-		/* Wait for transmitter to be ready
-		*/
-		//SPI2STATbits.SPITBE
+		/* Wait for transmitter to be ready */
 		while ((SPI2STAT & 0x08)== 0);
-		/* Write the next transmit byte.
-		*/
+		/* Write the next transmit byte.*/
 		SPI2BUF = *rgbTx++;
-		/* Wait for receive byte.
-		*/
-		//SPI2STATbits.SPIRBF
+		/* Wait for receive byte. */
 		while ((SPI2STAT & 0x1)  == 0);
 		bTmp = SPI2BUF;
 	}
@@ -30,54 +29,42 @@ void OledPutBuffer(int cb, unsigned char* rgbTx)
 unsigned char Spi2PutByte(unsigned char bVal)
 {
 	unsigned char bRx;
-	/* Wait for transmitter to be ready
-	*/
-	//SPI2STATbits.SPITBE
+	/* Wait for transmitter to be ready */
 	while ((SPI2STAT & 0x08) == 0);
-	/* Write the next transmit byte.
-	*/
+	/* Write the next transmit byte. */
 	SPI2BUF = bVal;
-	/* Wait for receive byte.
-	*/
-	//SPI2STATbits.SPIRBF
+	/* Wait for receive byte. */
 	while ((SPI2STAT & 0x1) == 0);
-	/* Put the received byte in the buffer.
-	*/
+	/* Put the received byte in the buffer. */
 	bRx = SPI2BUF;
 	return bRx;
 }
 void OledHostInit()
 {
 	unsigned int tcfg;
-	/* Initialize SPI port 2.
-	*/
+	/* Initialize SPI port 2. */
 	SPI2CON = 0;
 	SPI2BRG = 15; //8Mhz, with 80Mhz PB clock
 
-	SPI2STATCLR = PIC32_SPISTAT_SPIROV; //spirov is the bit index 6 that should be turned off source: family data sheet p.61
-	SPI2CONSET = PIC32_SPICON_CKP;		//ckp is is the bit index 6 that should be turned on source: family data sheet p.61		  
-	SPI2CONSET = PIC32_SPICON_MSTEN;	//msten is the bit index 5 that should be turned on source: family data sheet p.61		  
-	SPI2CONSET = PIC32_SPICON_ON;		//on is the bit index 15 that should be turned on source: family data sheet p.61	      
-/* Make pins RF4, RF5, and RF6 be outputs.
-*/
-/*RF6 = bitVddCtrl, R5= bitVbatCtrl, R4 = bitDataCmd */
-//PORTSetBits(IOPORT_F, bitVddCtrl | bitVbatCtrl | bitDataCmd);                           
-//PORTSetPinsDigitalOut(prtDataCmd, bitDataCmd); //Data/Command# select
-//PORTSetPinsDigitalOut(prtVddCtrl, bitVddCtrl); //VDD power control (1=off)
-//PORTSetPinsDigitalOut(prtVbatCtrl, bitVbatCtrl); //VBAT power control (1=off)
+	SPI2STATCLR = PIC32_SPISTAT_SPIROV; //spirov is the bit index 6 that should be turned off; source: family data sheet p.61
+	SPI2CONSET = PIC32_SPICON_CKP;		//ckp is is the bit index 6 that should be turned on; source: family data sheet p.61		  
+	SPI2CONSET = PIC32_SPICON_MSTEN;	//msten is the bit index 5 that should be turned on; source: family data sheet p.61		  
+	SPI2CONSET = PIC32_SPICON_ON;		//on is the bit index 15 that should be turned on; source: family data sheet p.61	      
+	/* Make pins RF4, RF5, and RF6 be outputs. */
+	/*RF6 = bitVddCtrl, R5= bitVbatCtrl, R4 = bitDataCmd */
+
 	TRISFCLR = 0X70; //RF4, RF5, RF6 are bits index 4,5,6 respectively, tris of the corresponding port should be turned off for outputs
-	PORTFSET = 0X70; //To set the above pins as outputes. Source: family data sheet p.74
+	PORTFSET = 0X70; // Source: family data sheet p.74
 
 	/* Make the RG9 pin be an output. On the Basic I/O Shield, this pin
 	** is tied to reset.
 	*/
-	TRISGCLR = 0X200; //RG9 is the pin index 9 and should be turned of to make it as an output. Source: family data sheet p.74
+	TRISGCLR = 0X200; //RG9 is the pin index 9 and should be turned off to make it as an output. Source: family data sheet p.74
 	PORTGSET = 0X200;
 }
 void OledDspInit()
 {
-	/* We're going to be sending commands, so clear the Data/Cmd bit
-	*/
+	/* We're going to be sending commands, so clear the Data/Cmd bit */
 	PORTFCLR = 0x10; //Rf4 = data/cmd bit
 	/* Start by turning VDD on and wait a while for the power to come up.
 	chipKIT� Basic I/O Shield� Reference Manual
@@ -87,7 +74,6 @@ void OledDspInit()
 	QuickTimer(10);
 	PORTFCLR = 0x40; // 0 = on 
 	QuickTimer(1000000);
-	//1ms delay
 	/* Display off command
 	*/
 	Spi2PutByte(0xAE);
@@ -95,7 +81,6 @@ void OledDspInit()
 	*/
 	PORTGCLR = 0x200;
 	QuickTimer(10);
-	//1ms delay
 	PORTGSET = 0x200;
 	/* Send the Set Charge Pump and Set Pre-Charge Period commands
 	*/
@@ -109,7 +94,6 @@ void OledDspInit()
 	*/
 	PORTFCLR = 0X20; //RF6 = VDD
 	QuickTimer(10000000);
-	//100 ms delay
 	/* Send the commands to invert the display. This puts the display origin
 	** in the upper left corner.
 	*/
@@ -133,7 +117,6 @@ void OledUpdate()
 
 	for (ipag = 0; ipag < 4; ipag++) {
 		PORTFCLR = 0x10; //Rf4 = Data/Cmd
-		//PORTClearBits(prtDataCmd, bitDataCmd);
 		/* Set the page address
 		*/
 		Spi2PutByte(0x22); //Set page command
@@ -142,8 +125,7 @@ void OledUpdate()
 		*/
 		Spi2PutByte(0x00); //set low nybble of column
 		Spi2PutByte(0x10); //set high nybble of column
-		PORTFSET = 0X10; //RF4 = Data/Cmd
-		//PORTSetBits(prtDataCmd, bitDataCmd);
+		PORTFSET = 0X10;   //RF4 = Data/Cmd
 		/* Copy this memory page of display data.
 		*/
 		OledPutBuffer(128, pb);
@@ -156,10 +138,10 @@ void OledUpdate()
 #pragma region IO_INITIALIZER_STUFF
 
 void InitializeIO() {
-	TRISECLR = 0xff; // the led lamps 0 - 7
-	PORTECLR = 0x000000ff;
-	PORTE = 0;
-	TRISDSET = 0xfe0; //switches and btns 
+	TRISECLR = 0xff; // the led lamps are controlled by bits 0 through 7, OFF
+	PORTECLR = 0x000000ff; // set to zero to make them as output
+	PORTE = 0; 
+	TRISDSET = 0xfe0; //switches and btns, set to one to make them as input
 	TRISFSET = 0x2; //btn 1 
 }
 
@@ -170,7 +152,6 @@ int GetSwitches(void) { //returns the state of swich 1 through 4 where the lsb r
 
 int GetButtons(void) { //return the state of btn 1 through 4 where the lsb represents state of btn 1
 	int result = ((PORTD & 0x000000e0) >> 4) | ((PORTF & 0x00000002) >> 1);
-	// delay(1);
 	QuickTimer(250000);
 	return result;
 }
@@ -182,9 +163,9 @@ int GetButtons(void) { //return the state of btn 1 through 4 where the lsb repre
 void InitializeTimer() {
 	//Initialize Timer2
 	T2CONSET = 0x70; //0111 0000, Sets prescale to 1:256
-	IFSCLR(0) = 0x100;//0001 0000 0000
-	PR2 = 7812; //40 FPS
-	TMR2 = 0;
+	IFSCLR(0) = 0x100;
+	PR2 = 7812; //Timer2 period 
+	TMR2 = 0; //Reset timer
 	T2CONSET = 0x08000; // 1000 0000 0000 0000, Start timer
 
 	IPCSET(2) = 0x1f; //0001 1111 - Bit 4:2 Priority, Bit 1:0 Subpriority.
@@ -208,24 +189,21 @@ void QuickTimer(int timeout) {
 void InitializeUNO32() {
 
 	InitializeIO();
-	// display settings
 	seed =GetSwitches();
 	OledHostInit();
 	OledDspInit();
-
 	InitializeTimer();
 
 }
 
 void user_isr() {
+	/*On each interupt the OLED display gets updated*/
 	OledUpdate();
+	/*During the game, interupt is used to move the current tetromino downward by 3 pixel*/
 	if(isGameActive && (IFS(0) & 0x100)){
-
     timeoutCount++;
 	}
 	IFSCLR(0) = 0x100;
-	// PORTESET = 0X1;
-
 	if ((timeoutCount >= 30 / level) && isGameActive == TRUE)
 	{
 
@@ -233,7 +211,6 @@ void user_isr() {
 	if (DoesFit(tempTetromino))
 	{
 		currentTetromino.x -= 3;
-		
 	}
 	else
 	{

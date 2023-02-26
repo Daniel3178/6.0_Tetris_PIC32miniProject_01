@@ -25,7 +25,7 @@ enable_interrupts:
 delay: 
     move $t0, $a0   # t0 = arg
     li $t1, 0    # i = 0;
-    lui $t2, 0x0043   # length = 0x1b7740
+    lui $t2, 0x0043   # length = 0x00430000
     ori $t2, $t2, 0x0000
     j while
     nop

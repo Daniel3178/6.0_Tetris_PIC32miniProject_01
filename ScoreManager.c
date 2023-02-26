@@ -9,6 +9,7 @@ Player topPlayer[4] = {
 };
 
 #pragma region ENDGAME_STUFF
+/*Takes the two initials from the user*/
 void RegisterPlayer()
 {
 
@@ -48,7 +49,7 @@ void RegisterPlayer()
     topPlayer[3].score = currentScore;
     currentScore = 0;
 }
-
+/*Selection sort for sorting the top player array*/
 void UpdateLeaderBoard()
 {
     int i;

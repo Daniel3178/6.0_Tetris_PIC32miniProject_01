@@ -5,6 +5,7 @@ void DrawTheGame()
 	unsigned char tempBuffer[32][128];
 	int i;
 	int j;
+	/*Clearing the tempBuffer*/
 	for (i = 0; i < 32; i++)
 	{
 		for (j = 0; j < 128; j++)
@@ -12,6 +13,7 @@ void DrawTheGame()
 			tempBuffer[i][j] = 0;
 		}
 	}
+	/*Printing the current tetromino accoring to its x and y coordinates on tempBuffer*/
 	for (i = 0; i < currentTetromino.width; i++)
 	{
 		for (j = 0; j < currentTetromino.width; j++)
@@ -22,6 +24,7 @@ void DrawTheGame()
 			}
 		}
 	}
+	/*Mapping the two buffers and truning the corresponding pixels off or on */
 	for (i = 0; i < 32; i++)
 	{
 		for (j = 36; j < 128; j++)
@@ -182,13 +185,14 @@ void PrintNumber(int aNumber, int xPosition, int yPosition, unsigned char aFont)
 	int tempCounter = 1;
 	int tempNum1 = aNumber;
 	int tempNum2 = aNumber;
+	/*Counting the digits*/
 	while (tempNum1 /= 10)
 	{
 		tempCounter++;
 	}
 
 	char tempDigitArray[tempCounter];
-
+	/*Extracting one digits from the right and save it in a temp array*/
 	for (i = 0; i < tempCounter; i++)
 	{
 		tempDigitArray[i] = (tempNum2 % 10) + 48;
@@ -198,7 +202,7 @@ void PrintNumber(int aNumber, int xPosition, int yPosition, unsigned char aFont)
 	switch (aFont)
 	{
 	case BIG_FONT:
-
+		/*Looping backward to get the right digits*/
 		for (i = tempCounter - 1; i >= 0; i--)
 		{
 			PrintDigit(tempDigitArray[i], tempX, tempY, aFont);
@@ -248,6 +252,7 @@ void RenderPixel(int xPosition, int yPosition, unsigned char aState)
 {
 	if (xPosition < 128 && yPosition < 32 && aState <= 1)
 	{
+		/*Getting the right position in oled display buffer*/
 		short bufferPos = ((yPosition / 8) * 128) + xPosition;
 
 		if (aState == 1)

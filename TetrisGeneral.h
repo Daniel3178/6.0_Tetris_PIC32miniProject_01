@@ -55,34 +55,35 @@ Tetromino tempTetromino;
 Tetromino nextTetromino;
 
 
-int seed;
-int timeoutCount;
-int currentScore;
-unsigned char level;
-unsigned char isGameActive;
+int seed; /*For randomizing a number*/
+int timeoutCount; /*For speed of the game */
+int currentScore; /*For saving the current score*/
+unsigned char level; /*For keeping track of the current level in the game*/
+unsigned char isGameActive; /*For running or ending the game*/
 
 /* Functions */
-int GetButtons(void); // return the state of btn 1 through 4 where the lsb represents state of btn 1
-int Rand(void);
-void user_isr();
-void InitializeTetrisField();
-void enable_interrupts();
-void SpawnNewTet();
-void ClearDisplay();
-void InitializeUNO32();
-void DrawTheGame();
-void DisplayCurrentPlayer();
-void InitializeLeaderBoardField();
-void DisplayLeaderBoard();
-void EndGameRoutine();
-void RunTetris();
-void Play(int aButton);
-void QuickTimer(int timeout);
-void RenderPixel(int xPos, int yPos, unsigned char state);
-void RotateMatrix(Tetromino inputTet, int rotationDirection);
-void PrintNumber(int aNumber, int xPosition, int yPosition, unsigned char aFont);
-void PrintCharacter(char aChar, int xPosition, int yPosition, unsigned char aFont);
-void PrintString(char *aString, int xPosition, int yPosition, unsigned char aFont);
-void PrintTetromino(Tetromino myTetromino, int xPosition, int yPosition);
+int GetButtons(void); /*Returns the state of 4 btns in form of 4 bits where bit 0 = btn1*/
+int Rand(void); /*Returns a random number*/
+void user_isr(); /*This function is a part of interupt service routine and is used for updating disply and some game mechanism*/
+void InitializeTetrisField(); /*This will set up the border of the game field */
+void enable_interrupts(); /*enables interrupt*/
+void SpawnNewTet(); /*This func will generate a new tetromino and adjusts its x and y coordinate in the game*/
+void ClearDisplay(); /*This will turn off all the pixels in the display*/
+void InitializeUNO32(); /*This will initialize all the necessary parts in the hardware such as display, btns, swiches, timer, enterupt etc*/
+void DrawTheGame(); /*This will loop through the game matrix and turn the corresponding pixels on the display off or on accordingly*/
+void DisplayCurrentPlayer(); /*This will display the current player's name and score after registeration*/
+void InitializeLeaderBoardField(); /*This will set the borders on the leaderboard */
+void DisplayLeaderBoard(); /*This will display the data on the leaderboard*/
+void EndGameRoutine(); /*This will display an ending message and will call a player registration routin*/
+void RunTetris(); /*This will trigger the program and is used for simplifying the main function*/
+void Play(int aButton); /*This will take a btn and will update the game accordingly t.ex, move or rotate the current tetromino*/
+void QuickTimer(int timeout); /*A simple timer */
+void RenderPixel(int xPos, int yPos, unsigned char state); /*It takes an x and y coordinate and according to third argument, it will
+either turn the corresponding pixel on or off*/
+void RotateMatrix(Tetromino inputTet, int rotationDirection); /*It takes a tetromino and rotates it either clockwise or counter clockwise*/
+void PrintNumber(int aNumber, int xPosition, int yPosition, unsigned char aFont); /*It print a number in a specific place on the disply*/
+void PrintCharacter(char aChar, int xPosition, int yPosition, unsigned char aFont); /*It prints a character in a specific place on the display*/
+void PrintString(char *aString, int xPosition, int yPosition, unsigned char aFont); /*It uses printCharacter to print a string in a specific place on the display*/
+void PrintTetromino(Tetromino myTetromino, int xPosition, int yPosition); /*This will print a tetromino in a specific place on the display*/
 
 #endif
