@@ -13,8 +13,9 @@ GUIDE:
     and install the program on the board. You can find the instructions in the following link:
     http://github.com/is1200-example-projects/mcb32tools/releases/Links. Make sure that you have the right program 
     installed on your machine then run the MCB32 toolchain terminal on your computer and navigate to the project 
-    folder. Once you found your way to the folder, type "make" in the terminal and press enter. After that you need
-    to send the compiled code to the UNO32 board using the following command: Make install TTYDEV=/dev/"usb address". 
+    folder. Once you found your way to the folder, type "make" in the terminal and press enter. After that you 
+    need to send the compiled code to the UNO32 board using the following command:
+    Make install TTYDEV=/dev/"usb address". 
 
 GAME INFO:
 
