@@ -1,2 +1,0 @@
-ScoreManager.c.o: ScoreManager.c TetrisGeneral.h pic32max.h
-ScoreManager.c TetrisGeneral.h pic32max.h :

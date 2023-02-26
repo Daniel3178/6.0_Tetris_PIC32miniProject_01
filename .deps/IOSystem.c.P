@@ -1,2 +1,0 @@
-IOSystem.c.o: IOSystem.c
-IOSystem.c :

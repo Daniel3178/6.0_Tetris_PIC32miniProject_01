@@ -1,2 +1,0 @@
-Vecores.S.o: Vecores.S
-Vecores.S :

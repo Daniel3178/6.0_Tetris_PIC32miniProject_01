@@ -1,2 +1,0 @@
-Assets.c.o: Assets.c TetrisGeneral.h
-Assets.c TetrisGeneral.h :

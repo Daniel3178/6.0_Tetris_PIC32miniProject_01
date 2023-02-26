@@ -1,2 +1,0 @@
-Stubs.c.o: Stubs.c tetrisGeneral.h
-Stubs.c tetrisGeneral.h :

@@ -1,2 +1,0 @@
-Menu.c.o: Menu.c TetrisGeneral.h
-Menu.c TetrisGeneral.h :

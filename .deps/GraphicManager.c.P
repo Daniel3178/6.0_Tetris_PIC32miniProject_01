@@ -1,2 +1,0 @@
-GraphicManager.c.o: GraphicManager.c
-GraphicManager.c :

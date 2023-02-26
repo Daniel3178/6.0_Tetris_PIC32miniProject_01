@@ -1,2 +1,0 @@
-Initializer.c.o: Initializer.c pic32max.h TetrisGeneral.h
-Initializer.c pic32max.h TetrisGeneral.h :

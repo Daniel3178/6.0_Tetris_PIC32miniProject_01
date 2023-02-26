@@ -1,2 +1,0 @@
-GraphicEngine.c.o: GraphicEngine.c TetrisGeneral.h
-GraphicEngine.c TetrisGeneral.h :

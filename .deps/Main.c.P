@@ -1,2 +1,0 @@
-Main.c.o: Main.c TetrisGeneral.h
-Main.c TetrisGeneral.h :
