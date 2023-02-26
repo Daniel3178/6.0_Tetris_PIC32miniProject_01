@@ -29,7 +29,7 @@ typedef struct Tetromino
 	int x;
 	int y;
 	unsigned char id;
-
+	
 } Tetromino;
 
 typedef struct Player

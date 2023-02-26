@@ -11,15 +11,15 @@ int currentScore = 0;
 
 #pragma region COLLISION &FETCH
 
-int DoesFit(Tetromino inputTet)
+int DoesFit(Tetromino myTetromino)
 {
 	int i;
 	int j;
-	for (i = 0; i < inputTet.width; i++)
+	for (i = 0; i < myTetromino.width; i++)
 	{
-		for (j = 0; j < inputTet.width; j++)
+		for (j = 0; j < myTetromino.width; j++)
 		{
-			if (tetrisField[inputTet.y + i][inputTet.x + j] && *((inputTet.matrix + i * inputTet.width) + j))
+			if (tetrisField[myTetromino.y + i][myTetromino.x + j] && *((myTetromino.matrix + i * myTetromino.width) + j))
 			{
 				return 0;
 			}

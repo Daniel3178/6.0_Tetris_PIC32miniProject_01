@@ -3,7 +3,6 @@
 void DrawTheGame()
 {
 	unsigned char tempBuffer[32][128];
-
 	int i;
 	int j;
 	for (i = 0; i < 32; i++)
@@ -270,4 +269,5 @@ void ClearDisplay()
 		OLED_DisplayBuffer[i] = 0;
 	}
 }
+
 #pragma endregion
