@@ -77,7 +77,7 @@ void UpdateLeaderBoard()
 
             topPlayer[i].name[0] = topPlayer[m].name[0];
             topPlayer[i].name[1] = topPlayer[m].name[1];
-            topPlayer[i].name[3] = 0;
+            topPlayer[i].name[2] = 0;
             topPlayer[i].score = topPlayer[m].score;
 
             topPlayer[m].name[0] = temp.name[0];
