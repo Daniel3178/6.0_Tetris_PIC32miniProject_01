@@ -5,7 +5,7 @@ PROJECT SPECIFICATIONS:
     Developed by = Daniel Ibrahimi & Naveed Rahman
     Instructor = Marco Chiesa 
     Course ID = IS1200 
-    KTH | CINTE1 | 27/2-23
+    KTH | CINTE1 | 2/3-23
 
 GUIDE: 
 
