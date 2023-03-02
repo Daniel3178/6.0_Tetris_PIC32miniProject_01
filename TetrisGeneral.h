@@ -34,7 +34,7 @@ typedef struct Tetromino
 
 typedef struct Player
 {
-	char name[3];
+	char name[4];
 	int score;
 	char positionBuffer[8];
 
@@ -62,6 +62,7 @@ unsigned char level; /*For keeping track of the current level in the game*/
 unsigned char isGameActive; /*For running or ending the game*/
 
 /* Functions */
+int GetSwitches();
 int GetButtons(void); /*Returns the state of 4 btns in form of 4 bits where bit 0 = btn1*/
 int Rand(void); /*Returns a random number*/
 void user_isr(); /*This function is a part of interupt service routine and is used for updating disply and some game mechanism*/

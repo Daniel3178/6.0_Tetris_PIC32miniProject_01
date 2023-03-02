@@ -17,15 +17,16 @@ void RegisterPlayer()
     PrintString("NAME", 60, 4, BIG_FONT);
     char firstLetter = '@';
     char secondLetter = '@';
+    char thirdLetter = '@';
     while (!(GetButtons() & 0x8))
     {
         if ((GetButtons() & 0x4) && firstLetter <= 'Z')
         {
-            PrintCharacter(++firstLetter, 50, 10, BIG_FONT);
+            PrintCharacter(++firstLetter, 50, 7, BIG_FONT);
         }
         if ((GetButtons() & 0x2) && firstLetter > 'A')
         {
-            PrintCharacter(--firstLetter, 50, 10, BIG_FONT);
+            PrintCharacter(--firstLetter, 50, 7, BIG_FONT);
         }
     }
     delay(2);
@@ -34,18 +35,32 @@ void RegisterPlayer()
 
         if ((GetButtons() & 0x4) && secondLetter <= 'Z')
         {
-            PrintCharacter(++secondLetter, 50, 16, BIG_FONT);
+            PrintCharacter(++secondLetter, 50, 13, BIG_FONT);
         }
         if ((GetButtons() & 0x2) && secondLetter > 'A')
         {
-            PrintCharacter(--secondLetter, 50, 16, BIG_FONT);
+            PrintCharacter(--secondLetter, 50, 13, BIG_FONT);
+        }
+    }
+    delay(2);
+        while (!(GetButtons() & 0x8))
+    {
+
+        if ((GetButtons() & 0x4) && thirdLetter <= 'Z')
+        {
+            PrintCharacter(++thirdLetter, 50, 19, BIG_FONT);
+        }
+        if ((GetButtons() & 0x2) && thirdLetter > 'A')
+        {
+            PrintCharacter(--thirdLetter, 50, 19, BIG_FONT);
         }
     }
     delay(2);
 
     topPlayer[3].name[0] = firstLetter;
     topPlayer[3].name[1] = secondLetter;
-    topPlayer[3].name[2] = 0;
+    topPlayer[3].name[2] = thirdLetter;
+    topPlayer[3].name[3] =0;
     topPlayer[3].score = currentScore;
     currentScore = 0;
 }
@@ -72,17 +87,20 @@ void UpdateLeaderBoard()
             Player temp;
             temp.name[0] = topPlayer[i].name[0];
             temp.name[1] = topPlayer[i].name[1];
-            temp.name[2] = 0;
+            temp.name[2] = topPlayer[i].name[2];
+            temp.name[3] = 0;
             temp.score = topPlayer[i].score;
 
             topPlayer[i].name[0] = topPlayer[m].name[0];
             topPlayer[i].name[1] = topPlayer[m].name[1];
-            topPlayer[i].name[2] = 0;
+            topPlayer[i].name[2] = topPlayer[m].name[2];
+            topPlayer[i].name[3] = 0;
             topPlayer[i].score = topPlayer[m].score;
 
             topPlayer[m].name[0] = temp.name[0];
             topPlayer[m].name[1] = temp.name[1];
-            topPlayer[m].name[2] = 0;
+            topPlayer[m].name[2] = temp.name[2];
+            topPlayer[m].name[3] = 0;
             topPlayer[m].score = temp.score;
         }
     }
@@ -148,19 +166,19 @@ void DisplayLeaderBoard()
 
     if (topPlayer[0].name[0] != 0 && topPlayer[0].score > 0)
     {
-        PrintString(&topPlayer[0].name[0], 19, 11, LITTLE_FONT);
+        PrintString(&topPlayer[0].name[0], 15, 11, LITTLE_FONT);
         PrintString(&topPlayer[0].positionBuffer[0], 64, 11, LITTLE_FONT);
         PrintNumber(topPlayer[0].score, 99, 11, LITTLE_FONT);
     }
     if (topPlayer[1].name[0] != 0 && topPlayer[1].score > 0)
     {
-        PrintString(&topPlayer[1].name[0], 19, 18, LITTLE_FONT);
+        PrintString(&topPlayer[1].name[0], 15, 18, LITTLE_FONT);
         PrintString(&topPlayer[1].positionBuffer[0], 64, 18, LITTLE_FONT);
         PrintNumber(topPlayer[1].score, 99, 18, LITTLE_FONT);
     }
     if (topPlayer[2].name[0] != 0 && topPlayer[2].score > 0)
     {
-        PrintString(&topPlayer[2].name[0], 19, 25, LITTLE_FONT);
+        PrintString(&topPlayer[2].name[0], 15, 25, LITTLE_FONT);
         PrintString(&topPlayer[2].positionBuffer[0], 64, 25, LITTLE_FONT);
         PrintNumber(topPlayer[2].score, 99, 25, LITTLE_FONT);
     }

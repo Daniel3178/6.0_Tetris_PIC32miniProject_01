@@ -18,7 +18,7 @@ int DoesFit(Tetromino myTetromino)
 	for (i = 0; i < myTetromino.width; i++)
 	{
 		for (j = 0; j < myTetromino.width; j++)
-		{	/*If both the tetromino and the position of tetromino in the game fiels is 1 then it doesn't fit */
+		{ /*If both the tetromino and the position of tetromino in the game fiels is 1 then it doesn't fit */
 			if (tetrisField[myTetromino.y + i][myTetromino.x + j] && *((myTetromino.matrix + i * myTetromino.width) + j))
 			{
 				return 0;
@@ -278,19 +278,41 @@ void Play(int aButton)
 
 		break;
 	case PLAY_ROTATE:
-		RotateMatrix(tempTetromino, CLOCKWISE_ROTATION);
-		if (DoesFit(rotatedTetromino))
+		if (tempTetromino.id != TET_ID_6X6)
 		{
-			currentTetromino.matrix = rotatedTetromino.matrix;
+
+			RotateMatrix(tempTetromino, CLOCKWISE_ROTATION);
+			if (DoesFit(rotatedTetromino))
+			{
+				currentTetromino.matrix = rotatedTetromino.matrix;
+			}
+			else
+			{
+				RotateMatrix(tempTetromino, COUNTERCLOCKWISE_ROTAION);
+			}
+			QuickTimer(500000);
+		}
+		break;
+	case PLAY_EXIT:
+		if (GetSwitches() == 0xb)
+		{
+			tempTetromino.x -= 3;
+			if (DoesFit(tempTetromino))
+			{
+				currentTetromino.x -= 3;
+			}
+			else
+			{
+				WriteToTetrisField();
+				CheckScore();
+				SpawnNewTet();
+				tempTetromino.x += 3;
+			}
 		}
 		else
 		{
-			RotateMatrix(tempTetromino, COUNTERCLOCKWISE_ROTAION);
+			isGameActive = FALSE;
 		}
-
-		break;
-	case PLAY_EXIT:
-		isGameActive = FALSE;
 
 		break;
 	}
