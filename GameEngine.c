@@ -18,7 +18,7 @@ int DoesFit(Tetromino myTetromino)
 	for (i = 0; i < myTetromino.width; i++)
 	{
 		for (j = 0; j < myTetromino.width; j++)
-		{ /*If both the tetromino and the position of tetromino in the game fiels is 1 then it doesn't fit */
+		{ /*If both the tetromino and the position of tetromino in the game fields are 1 then it doesn't fit */
 			if (tetrisField[myTetromino.y + i][myTetromino.x + j] && *((myTetromino.matrix + i * myTetromino.width) + j))
 			{
 				return 0;
