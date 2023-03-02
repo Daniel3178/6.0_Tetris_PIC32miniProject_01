@@ -164,7 +164,7 @@ void InitializeTimer() {
 	//Initialize Timer2
 	T2CONSET = 0x70; //0111 0000, Sets prescale to 1:256
 	IFSCLR(0) = 0x100;
-	PR2 = 7812; //Timer2 period 
+	PR2 = 7812; //Timer2 period (80 000 000 / 256 / 40)
 	TMR2 = 0; //Reset timer
 	T2CONSET = 0x08000; // 1000 0000 0000 0000, Start timer
 
